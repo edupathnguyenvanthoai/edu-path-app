@@ -38,6 +38,7 @@
     "@mui/material": "^7.3.2",
     "apexcharts": "^4.7.0",
     "dayjs": "^1.11.18",
+    "dexie": "^4.2.0",
     "es-toolkit": "^1.39.10",
     "minimal-shared": "^1.0.15",
     "react": "^19.1.1",

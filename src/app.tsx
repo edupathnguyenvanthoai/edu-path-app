@@ -1,35 +1,22 @@
 import 'src/global.css';
 
-import { useEffect } from 'react';
-
-import Fab from '@mui/material/Fab';
+import { type PropsWithChildren, useEffect } from 'react';
 
 import { usePathname } from 'src/routes/hooks';
-
-import { ThemeProvider } from 'src/theme/theme-provider';
-
-import { Iconify } from 'src/components/iconify';
+import { ThemeProvider } from './theme/theme-provider';
 
 // ----------------------------------------------------------------------
 
-type AppProps = {
-  children: React.ReactNode;
-};
-
-export default function App({ children }: AppProps) {
+export default function App({ children }: PropsWithChildren) {
   useScrollToTop();
-
   return <ThemeProvider>{children}</ThemeProvider>;
 }
 
 // ----------------------------------------------------------------------
 
-function useScrollToTop() {
+function useScrollToTop(): void {
   const pathname = usePathname();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-
-  return null;
 }
