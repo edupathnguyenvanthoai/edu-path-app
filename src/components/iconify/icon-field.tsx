@@ -1,24 +1,30 @@
+import type { BoxProps } from '@mui/material';
+
 import { useRef, useEffect } from 'react';
 
 import { Box, Stack, ButtonBase, FormControl, FormHelperText } from '@mui/material';
 
 import { Iconify } from '../iconify';
-import { COLOR_SET } from './color-set';
+import { solarIcons } from './icon-solar';
 
-type ColorFieldProps = {
-  value?: string;
-  onChange: (color: string) => void;
+import type { IconifyName } from '../iconify';
+
+type IconFieldProps = {
+  value?: IconifyName;
+  onChange: (color: IconifyName) => void;
   columns?: number;
   error?: boolean;
   helperText?: string;
+  sx?: BoxProps['sx'];
 };
-export default function ColorField({
+export default function IconField({
   value,
   onChange,
   columns = 6,
   error,
   helperText,
-}: ColorFieldProps) {
+  sx,
+}: IconFieldProps) {
   const ref = useRef<Record<string, HTMLElement>>({});
   const autoScroll = useRef(true);
   useEffect(() => {
@@ -27,6 +33,7 @@ export default function ColorField({
       autoScroll.current = false;
     }
   }, [value]);
+  const keys = Object.keys(solarIcons) as (keyof typeof solarIcons)[];
   return (
     <FormControl>
       <Box
@@ -36,6 +43,7 @@ export default function ColorField({
           WebkitOverflowScrolling: 'touch',
           '&::-webkit-scrollbar': { display: 'none' },
           ...(error && { outline: 1, outlineColor: 'error.main', borderRadius: 1 }),
+          ...sx,
         }}
       >
         <Stack
@@ -48,35 +56,37 @@ export default function ColorField({
             },
           }}
         >
-          {Object.values(COLOR_SET).map((color) => (
+          {keys.map((icon) => (
             <Box
-              key={color}
+              key={icon}
               ref={(r: HTMLElement) => {
-                if (r) ref.current[color] = r;
+                if (r) ref.current[icon] = r;
               }}
               sx={{
                 aspectRatio: '1 / 1',
                 display: 'flex',
-                justifyContent: 'center',
                 alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               <ButtonBase
+                className={icon === value ? 'active' : ''}
                 sx={{
-                  bgcolor: color,
-                  width: 40,
                   height: 40,
-                  scale: value === color ? 1 : 0.6,
+                  width: 40,
                   borderRadius: 1.5,
                   transition: 'all 0.2s',
-                  color: t=>t.palette.getContrastText(color),
+                  '&.active': {
+                    bgcolor: (t) => t.vars.palette.primary.main,
+                    color: (t) => t.vars.palette.primary.contrastText,
+                  },
                 }}
                 onClick={() => {
-                  onChange(color);
+                  onChange(icon);
                   autoScroll.current = false;
                 }}
               >
-                {value === color && <Iconify width={24} icon="eva:checkmark-fill" />}
+                <Iconify width={20} icon={icon} />
               </ButtonBase>
             </Box>
           ))}

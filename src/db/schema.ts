@@ -124,7 +124,7 @@ export class AppDB extends Dexie {
   challenges!: Table<Challenge, number>;
 
   constructor() {
-    super('AppDB');
+    super('EdupathDB');
     this.version(1).stores({
       subjects: '++id,name,category',
       goals: '++id,subjectId,examType',

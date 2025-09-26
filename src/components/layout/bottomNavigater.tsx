@@ -6,6 +6,33 @@ import { Iconify } from '../iconify';
 import { useRouter, usePathname } from '../../routes/hooks';
 
 export default memo(BottomNavigater);
+const TAB_ITEMS = [
+  {
+    value: '/subjects',
+    icon: 'solar:book-2-bold-duotone',
+    label: 'Môn Học',
+  },
+  {
+    value: '/goals',
+    icon: 'solar:target-bold-duotone',
+    label: 'Mục Tiêu',
+  },
+  {
+    value: '/schedule',
+    icon: 'solar:calendar-bold-duotone',
+    label: 'Lịch Học',
+  },
+  {
+    value: '/progress',
+    icon: 'solar:chart-square-bold-duotone',
+    label: 'Tiến Độ',
+  },
+  {
+    value: '/settings',
+    icon: 'solar:settings-minimalistic-bold-duotone',
+    label: 'Cài Đặt',
+  },
+];
 function BottomNavigater() {
   const pathname = usePathname();
   const router = useRouter();
@@ -23,7 +50,7 @@ function BottomNavigater() {
         right: 0,
         zIndex: 10,
         pb: 1,
-        px: 0,
+        px: 1,
         '& .MuiTabs-list': {
           justifyContent: 'space-evenly',
         },
@@ -46,36 +73,15 @@ function BottomNavigater() {
         },
       }}
     >
-      <Tab
-        iconPosition="top"
-        icon={<Iconify width={24} icon="solar:book-2-bold-duotone" />}
-        value="/subjects"
-        label="Môn Học"
-      />
-      <Tab
-        iconPosition="top"
-        icon={<Iconify width={24} icon="solar:target-bold-duotone" />}
-        value="/goals"
-        label="Mục Tiêu"
-      />
-      <Tab
-        iconPosition="top"
-        icon={<Iconify width={24} icon="solar:calendar-bold-duotone" />}
-        value="/schedule"
-        label="Lịch Học"
-      />
-      <Tab
-        iconPosition="top"
-        icon={<Iconify width={24} icon="solar:chart-square-bold-duotone" />}
-        value="/progress"
-        label="Tiến Độ"
-      />
-      <Tab
-        iconPosition="top"
-        icon={<Iconify width={24} icon="solar:settings-minimalistic-bold-duotone" />}
-        value="/settings"
-        label="Cài Đặt"
-      />
+      {TAB_ITEMS.map((item) => (
+        <Tab
+          iconPosition="top"
+          icon={<Iconify width={24} icon={item.icon as any} />}
+          key={item.value}
+          value={item.value}
+          label={item.label}
+        />
+      ))}
     </Tabs>
   );
 }
