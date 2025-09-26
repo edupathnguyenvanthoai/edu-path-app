@@ -1,22 +1,21 @@
 import 'src/global.css';
 
-import { type PropsWithChildren, useEffect } from 'react';
+import { type PropsWithChildren } from 'react';
 
-import { usePathname } from 'src/routes/hooks';
+import Container from '@mui/material/Container';
+
 import { ThemeProvider } from './theme/theme-provider';
+import BottomNavigater from './components/layout/bottomNavigater';
 
 // ----------------------------------------------------------------------
 
 export default function App({ children }: PropsWithChildren) {
-  useScrollToTop();
-  return <ThemeProvider>{children}</ThemeProvider>;
-}
-
-// ----------------------------------------------------------------------
-
-function useScrollToTop(): void {
-  const pathname = usePathname();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+  return (
+    <ThemeProvider>
+      <Container maxWidth="xs" sx={{ minHeight: '100dvh', mb: 8, position: 'relative' }}>
+        {children}
+        <BottomNavigater />
+      </Container>
+    </ThemeProvider>
+  );
 }

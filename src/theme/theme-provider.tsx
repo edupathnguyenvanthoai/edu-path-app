@@ -20,7 +20,7 @@ export function ThemeProvider({ themeOverrides, children, ...other }: ThemeProvi
   });
 
   return (
-    <ThemeVarsProvider disableTransitionOnChange theme={theme} {...other}>
+    <ThemeVarsProvider theme={theme} {...other}>
       <CssBaseline />
       {children}
     </ThemeVarsProvider>

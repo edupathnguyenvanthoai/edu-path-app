@@ -1,6 +1,6 @@
 import { varAlpha } from 'minimal-shared/utils';
 
-import { grey, info, error, common, primary, success, warning, secondary } from './palette';
+import { grey, info, error, primary, success, warning, secondary } from './palette';
 
 import type { ThemeColorScheme } from '../types';
 
@@ -46,8 +46,8 @@ function createCustomShadows(colorChannel: string): CustomShadows {
     z20: `0 20px 40px -4px ${varAlpha(colorChannel, 0.16)}`,
     z24: `0 24px 48px 0 ${varAlpha(colorChannel, 0.16)}`,
     /********/
-    dialog: `-40px 40px 80px -8px ${varAlpha(common.blackChannel, 0.24)}`,
-    card: `0 0 2px 0 ${varAlpha(colorChannel, 0.2)}, 0 12px 24px -4px ${varAlpha(colorChannel, 0.12)}`,
+    dialog: `-40px 40px 80px -8px ${varAlpha(colorChannel, 0.35)}`,
+    card: `0 0 4px 0 ${varAlpha(colorChannel, 0.2)}, 0 12px 24px -4px ${varAlpha(colorChannel, 0.12)}`,
     dropdown: `0 0 2px 0 ${varAlpha(colorChannel, 0.24)}, -20px 20px 40px -4px ${varAlpha(colorChannel, 0.24)}`,
     /********/
     primary: createShadowColor(primary.mainChannel),
@@ -60,5 +60,6 @@ function createCustomShadows(colorChannel: string): CustomShadows {
 }
 
 export const customShadows: Partial<Record<ThemeColorScheme, CustomShadows>> = {
-  light: createCustomShadows(grey['500Channel']),
+  light: createCustomShadows(grey['600Channel']),
+  dark: createCustomShadows("0 0 0"),
 };

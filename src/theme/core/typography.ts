@@ -2,8 +2,6 @@ import type { CSSObject, Breakpoint, TypographyVariantsOptions } from '@mui/mate
 
 import { pxToRem, setFont } from 'minimal-shared/utils';
 
-import { createTheme as getTheme } from '@mui/material/styles';
-
 import { themeConfig } from '../theme-config';
 
 // ----------------------------------------------------------------------
@@ -20,23 +18,6 @@ export type FontStyleExtend = {
 export type ResponsiveFontSizesInput = Partial<Record<Breakpoint, number>>;
 export type ResponsiveFontSizesResult = Record<string, { fontSize: string }>;
 
-const defaultMuiTheme = getTheme();
-
-function responsiveFontSizes(obj: ResponsiveFontSizesInput): ResponsiveFontSizesResult {
-  const breakpoints: Breakpoint[] = defaultMuiTheme.breakpoints.keys;
-
-  return breakpoints.reduce((acc, breakpoint) => {
-    const value = obj[breakpoint];
-
-    if (value !== undefined && value >= 0) {
-      acc[defaultMuiTheme.breakpoints.up(breakpoint)] = {
-        fontSize: pxToRem(value),
-      };
-    }
-
-    return acc;
-  }, {} as ResponsiveFontSizesResult);
-}
 
 // ----------------------------------------------------------------------
 
@@ -56,39 +37,33 @@ export const typography: TypographyVariantsOptions = {
     fontWeight: 800,
     lineHeight: 80 / 64,
     fontSize: pxToRem(40),
-    ...responsiveFontSizes({ sm: 52, md: 58, lg: 64 }),
   },
   h2: {
     fontFamily: secondaryFont,
     fontWeight: 800,
     lineHeight: 64 / 48,
     fontSize: pxToRem(32),
-    ...responsiveFontSizes({ sm: 40, md: 44, lg: 48 }),
   },
   h3: {
     fontFamily: secondaryFont,
     fontWeight: 700,
     lineHeight: 1.5,
     fontSize: pxToRem(24),
-    ...responsiveFontSizes({ sm: 26, md: 30, lg: 32 }),
   },
   h4: {
     fontWeight: 700,
     lineHeight: 1.5,
     fontSize: pxToRem(20),
-    ...responsiveFontSizes({ md: 24 }),
   },
   h5: {
     fontWeight: 700,
     lineHeight: 1.5,
     fontSize: pxToRem(18),
-    ...responsiveFontSizes({ sm: 19 }),
   },
   h6: {
     fontWeight: 600,
     lineHeight: 28 / 18,
     fontSize: pxToRem(17),
-    ...responsiveFontSizes({ sm: 18 }),
   },
   subtitle1: {
     fontWeight: 600,

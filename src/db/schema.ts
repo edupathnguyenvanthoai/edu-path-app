@@ -1,12 +1,21 @@
-import Dexie, { Table } from 'dexie';
+import type { Table } from 'dexie';
+
+import Dexie from 'dexie';
 import { type Dayjs } from 'dayjs';
+
+import type { IconifyName } from '../components/iconify';
+
 
 export interface Subject {
   id?: number; // Mã định danh duy nhất cho môn học (tự tăng)
   name: string; // Tên môn học, ví dụ: "Toán", "Lịch sử"
-  category: 'TuNhien' | 'XaHoi' | 'ThiTotNghiep'; // Nhóm môn học: Tự nhiên, Xã hội hoặc Thi tốt nghiệp
-  createdAt: Date; // Ngày tạo hoặc thêm môn học vào cơ sở dữ liệu
+  color?: string; // Màu sắc đại diện cho môn học (tùy chọn)
+  icon?: IconifyName; // Biểu tượng đại diện cho môn học (tùy chọn)
+  category?: 'TuNhien' | 'XaHoi' | 'MonTuChon'; // Nhóm môn học: Tự nhiên, Xã hội hoặc Môn tự chọn
+  createdAt: Dayjs; // Ngày tạo hoặc thêm môn học vào cơ sở dữ liệu
 }
+
+export const SUBJECT_CATEGORIES = ['MonTuChon', 'TuNhien', 'XaHoi'] as const;
 
 export interface Goal {
   id?: number; // Mã định danh duy nhất cho mục tiêu (tự tăng)

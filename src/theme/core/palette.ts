@@ -94,14 +94,24 @@ export const text = {
     secondary: grey[600],
     disabled: grey[500],
   }),
+  dark: createPaletteChannel({
+    primary: grey[100],
+    secondary: grey[400],
+    disabled: grey[300],
+  }),
 };
 
 // Background color
 export const background = {
   light: createPaletteChannel({
-    paper: '#FFFFFF',
+    paper: grey[50],
     default: grey[100],
-    neutral: grey[200],
+    neutral: grey[300],
+  }),
+  dark: createPaletteChannel({
+    paper: grey[800],
+    default: grey[900],
+    neutral: '#28323D',
   }),
 };
 
@@ -119,6 +129,7 @@ export const baseAction = {
 // Action color
 export const action = {
   light: { ...baseAction, active: grey[600] },
+  dark: { ...baseAction, active: '#FFFFFF' },
 };
 
 // ----------------------------------------------------------------------
@@ -142,5 +153,11 @@ export const palette: Partial<Record<ThemeColorScheme, ColorSystemOptions['palet
     text: text.light,
     background: background.light,
     action: action.light,
+  },
+  dark: {
+    ...basePalette,
+    text: text.dark,
+    background: background.dark,
+    action: action.dark,
   },
 };

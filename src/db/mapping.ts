@@ -13,7 +13,7 @@ export const LABEL_VIEW = {
 
   TuNhien: 'Tự nhiên',
   XaHoi: 'Xã hội',
-  ThiTotNghiep: 'Thi tốt nghiệp',
+  MonTuChon: 'Môn tự chọn',
 
   GiuaKy: 'Giữa kỳ',
   CuoiKy: 'Cuối kỳ',

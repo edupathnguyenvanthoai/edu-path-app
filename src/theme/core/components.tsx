@@ -1,10 +1,21 @@
+import type { CSSProperties } from 'react';
 import type { Theme, Components } from '@mui/material/styles';
 
 import { varAlpha } from 'minimal-shared/utils';
 
 import SvgIcon from '@mui/material/SvgIcon';
+import { Slide, MenuItem } from '@mui/material';
+
+import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
+
+export const bgImage: (theme: Theme) => CSSProperties = (t: Theme) => ({
+  backgroundImage: `url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSJ1cmwoI3BhaW50MF9yYWRpYWxfNDQ2NF81NTMzOCkiIGZpbGwtb3BhY2l0eT0iMC4xIi8+CjxkZWZzPgo8cmFkaWFsR3JhZGllbnQgaWQ9InBhaW50MF9yYWRpYWxfNDQ2NF81NTMzOCIgY3g9IjAiIGN5PSIwIiByPSIxIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgZ3JhZGllbnRUcmFuc2Zvcm09InRyYW5zbGF0ZSgxMjAgMS44MTgxMmUtMDUpIHJvdGF0ZSgtNDUpIHNjYWxlKDEyMy4yNSkiPgo8c3RvcCBzdG9wLWNvbG9yPSIjMDBCOEQ5Ii8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAwQjhEOSIgc3RvcC1vcGFjaXR5PSIwIi8+CjwvcmFkaWFsR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+Cg=="), url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSJ1cmwoI3BhaW50MF9yYWRpYWxfNDQ2NF81NTMzNykiIGZpbGwtb3BhY2l0eT0iMC4xIi8+CjxkZWZzPgo8cmFkaWFsR3JhZGllbnQgaWQ9InBhaW50MF9yYWRpYWxfNDQ2NF81NTMzNyIgY3g9IjAiIGN5PSIwIiByPSIxIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgZ3JhZGllbnRUcmFuc2Zvcm09InRyYW5zbGF0ZSgwIDEyMCkgcm90YXRlKDEzNSkgc2NhbGUoMTIzLjI1KSI+CjxzdG9wIHN0b3AtY29sb3I9IiNGRjU2MzAiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjRkY1NjMwIiBzdG9wLW9wYWNpdHk9IjAiLz4KPC9yYWRpYWxHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4K")`,
+  backgroundSize: 'cover',
+  backgroundRepeat: 'repeat',
+  backdropFilter: 'opacity(0%) blur(40px)',
+});
 
 const MuiBackdrop: Components<Theme>['MuiBackdrop'] = {
   styleOverrides: {
@@ -22,14 +33,21 @@ const MuiButton: Components<Theme>['MuiButton'] = {
     disableElevation: true,
   },
   styleOverrides: {
-    containedInherit: ({ theme }) => ({
-      color: theme.vars.palette.common.white,
-      backgroundColor: theme.vars.palette.grey[800],
-      '&:hover': {
-        color: theme.vars.palette.common.white,
-        backgroundColor: theme.vars.palette.grey[800],
+    containedInherit: ({ theme }) => [
+      {
+        color: theme.palette.common.white,
+        backgroundColor: theme.palette.grey[800],
+        '&:hover': {
+          backgroundColor: theme.palette.grey[800],
+        },
       },
-    }),
+      theme.applyStyles('dark', {
+        backgroundColor: theme.palette.grey[900],
+        '&:hover': {
+          backgroundColor: theme.palette.grey[900],
+        },
+      }),
+    ],
     sizeLarge: {
       minHeight: 48,
     },
@@ -70,7 +88,9 @@ const MuiOutlinedInput: Components<Theme>['MuiOutlinedInput'] = {
 const MuiPaper: Components<Theme>['MuiPaper'] = {
   defaultProps: { elevation: 0 },
   styleOverrides: {
-    root: { backgroundImage: 'none' },
+    root: ({ theme }) => ({
+      boxShadow: theme.vars.customShadows.dialog,
+    }),
     outlined: ({ theme }) => ({
       borderColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.16),
     }),
@@ -153,6 +173,160 @@ const MuiRadio: Components<Theme>['MuiRadio'] = {
   },
 };
 
+const MuiAutocomplete: Components<Theme>['MuiAutocomplete'] = {
+  defaultProps: {
+    renderOption: (props, item) => (
+      <MenuItem {...props} key={item} value={item} sx={{ display: 'flex', gap: 0.5 }}>
+        {item}
+      </MenuItem>
+    ),
+    filterSelectedOptions: true,
+    noOptionsText: 'Không có lựa chọn.',
+    slotProps: {
+      paper: {
+        sx: {
+          my: -1,
+        },
+      },
+      popper: {
+        sx: {
+          borderRadius: 1,
+          overflow: 'hidden',
+          boxShadow: (t) => t.vars.shadows[10],
+        },
+      },
+    },
+  },
+};
+
+const MuiDatePicker = {
+  defaultProps: {
+    enableAccessibleFieldDOMStructure: false,
+  },
+};
+
+const MuiMobileDatePicker = {
+  defaultProps: {
+    enableAccessibleFieldDOMStructure: false,
+    orientation: 'portrait',
+    slots: {
+      openPickerIcon: () => <Iconify width={20} icon="solar:calendar-bold-duotone" />,
+      toolbar: () => null,
+    },
+    slotProps: {
+      textField: { fullWidth: true, required: true },
+      dialog: {
+        maxWidth: 'xs',
+        dialog: {
+          sx: {
+            '& .MuiDateCalendar-root': {
+              m: 0,
+              width: 'unset',
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+const MuiDialog: Components<Theme>['MuiDialog'] = {
+  defaultProps: {
+    maxWidth: 'xs',
+    fullWidth: true,
+    slots: {
+      transition: Slide,
+    },
+    slotProps: {
+      transition: {
+        direction: 'up',
+        mountOnEnter: true,
+        unmountOnExit: true,
+      },
+      backdrop: {
+        sx: {
+          backdropFilter: 'blur(4px)',
+        },
+      },
+    },
+  },
+  styleOverrides: {
+    paper: ({ theme: t }) => ({
+      backgroundImage: 'unset',
+    }),
+  },
+};
+
+const MuiTabs: Components<Theme>['MuiTabs'] = {
+  defaultProps: {
+    slotProps: {
+      indicator: {
+        sx: {
+          bgcolor: (t) => t.vars.palette.text.primary,
+        },
+      },
+    },
+  },
+};
+
+const MuiTab: Components<Theme>['MuiTab'] = {
+  defaultProps: {
+    disableRipple: true,
+    iconPosition: 'start',
+    sx: {
+      height: 'unset',
+      minHeight: 'unset',
+      transition: 'all 0.2s ease-in',
+      p: (t) => t.spacing(1.75, 2),
+      '&.Mui-selected': {
+        color: (t) => t.vars.palette.text.primary,
+        fontWeight: 'bold',
+      },
+    },
+  },
+};
+
+const MuiAvatar: Components<Theme>['MuiAvatar'] = {
+  defaultProps: {
+    children: <Iconify width={0.65} icon="solar:user-bold-duotone" />,
+  },
+};
+
+const MuiMenu: Components<Theme>['MuiMenu'] = {
+  defaultProps: {
+    slotProps: {
+      paper: {
+        sx: {
+          boxShadow: (t) => t.vars.shadows[10],
+        },
+      },
+    },
+  },
+};
+
+const MuiListSubheader: Components<Theme>['MuiListSubheader'] = {
+  defaultProps: {
+    disableSticky: true,
+  },
+};
+
+const MuiTextField: Components<Theme>['MuiTextField'] = {
+  styleOverrides: {
+    root: ({ theme: t }) => ({
+      '& .MuiFormLabel-root': {
+        display: 'flex',
+        gap: t.spacing(0.25),
+        '&>*:nth-of-type(1)': {
+          color: t.vars.palette.error.main,
+        },
+      },
+      '& .Mui-disabled': {
+        opacity: 0.5,
+      },
+    }),
+  },
+};
+
 // ----------------------------------------------------------------------
 
 export const components = {
@@ -168,4 +342,14 @@ export const components = {
   MuiCardHeader,
   MuiOutlinedInput,
   MuiFormControlLabel,
+  MuiAutocomplete,
+  MuiDatePicker,
+  MuiMobileDatePicker,
+  MuiDialog,
+  MuiMenu,
+  MuiListSubheader,
+  MuiTabs,
+  MuiTab,
+  MuiAvatar,
+  MuiTextField,
 };

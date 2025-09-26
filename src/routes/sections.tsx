@@ -1,11 +1,15 @@
 import type { RouteObject } from 'react-router';
 
-import { Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import { varAlpha } from 'minimal-shared/utils';
+import { Outlet, Navigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+
+import IconPages from '../pages/icons';
+
+export const SubejectList = lazy(() => import('src/pages/subjects/list-subject'));
 
 // ----------------------------------------------------------------------
 
@@ -16,6 +20,7 @@ const renderFallback = () => (
       flex: '1 1 auto',
       alignItems: 'center',
       justifyContent: 'center',
+      height: '100dvh',
     }}
   >
     <LinearProgress
@@ -36,6 +41,23 @@ export const routesSection: RouteObject[] = [
         <Outlet />
       </Suspense>
     ),
-    children: [],
+    children: [
+      {
+        index: true,
+        element: <Navigate replace to={localStorage.getItem('pathname') || '/schedule'} />,
+      },
+      {
+        path: 'subjects',
+        Component: SubejectList,
+      },
+      {
+        path: 'icons',
+        Component: IconPages,
+      },
+    ],
+  },
+  {
+    path: '*',
+    Component: () => <div>Not Found</div>,
   },
 ];

@@ -44,4 +44,5 @@ function createShadows(colorChannel: string): Shadows {
 
 export const shadows: Partial<Record<ThemeColorScheme, Shadows>> = {
   light: createShadows(grey['500Channel']),
+  dark: createShadows('0 0 0'),
 };
