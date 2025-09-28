@@ -7,9 +7,7 @@ import { Outlet, Navigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 
-import IconPages from '../pages/icons';
-
-export const SubejectList = lazy(() => import('src/pages/subjects/list-subject'));
+import IconPages from './icons';
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +18,7 @@ const renderFallback = () => (
       flex: '1 1 auto',
       alignItems: 'center',
       justifyContent: 'center',
-      height: '100dvh',
+      height: '100vh',
     }}
   >
     <LinearProgress
@@ -48,7 +46,7 @@ export const routesSection: RouteObject[] = [
       },
       {
         path: 'subjects',
-        Component: SubejectList,
+        Component: lazy(() => import('src/pages/subjects/list')),
       },
       {
         path: 'icons',

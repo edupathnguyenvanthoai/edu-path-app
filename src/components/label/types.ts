@@ -20,4 +20,5 @@ export interface LabelProps extends React.ComponentProps<'span'> {
   variant?: LabelVariant;
   endIcon?: React.ReactNode;
   startIcon?: React.ReactNode;
+  active?: boolean;
 }

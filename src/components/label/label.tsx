@@ -25,7 +25,16 @@ export function Label({
       variant={variant}
       disabled={disabled}
       className={mergeClasses([labelClasses.root, className])}
-      sx={sx}
+      sx={{
+        ...sx,
+        ...(other.onClick && {
+          cursor: 'pointer',
+          userSelect: 'none',
+          '&:hover': {
+            opacity: 0.8,
+          },
+        }),
+      }}
       {...other}
     >
       {startIcon && <LabelIcon className={labelClasses.icon}>{startIcon}</LabelIcon>}

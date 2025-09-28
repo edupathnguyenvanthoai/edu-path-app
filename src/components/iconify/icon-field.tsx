@@ -1,8 +1,8 @@
 import type { BoxProps } from '@mui/material';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, memo } from 'react';
 
-import { Box, Stack, ButtonBase, FormControl, FormHelperText } from '@mui/material';
+import { Box, Stack, ButtonBase, InputLabel, FormControl, FormHelperText } from '@mui/material';
 
 import { Iconify } from '../iconify';
 import { solarIcons } from './icon-solar';
@@ -16,31 +16,59 @@ type IconFieldProps = {
   error?: boolean;
   helperText?: string;
   sx?: BoxProps['sx'];
+  label?: string;
+  required?: boolean;
 };
-export default function IconField({
+
+export default memo(IconField);
+
+function IconField({
   value,
   onChange,
   columns = 6,
   error,
   helperText,
   sx,
+  label,
+  required,
 }: IconFieldProps) {
   const ref = useRef<Record<string, HTMLElement>>({});
   const autoScroll = useRef(true);
   useEffect(() => {
     if (value && ref.current[value] && autoScroll.current) {
-      ref.current[value].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      ref.current[value].scrollIntoView({ block: 'nearest', inline: 'center' });
       autoScroll.current = false;
     }
   }, [value]);
   const keys = Object.keys(solarIcons) as (keyof typeof solarIcons)[];
+  
   return (
     <FormControl>
+      {label && (
+        <InputLabel
+          shrink
+          sx={{
+            mx: -0.75,
+            px: 0.75,
+            bgcolor: 'background.paper',
+          }}
+        >
+          {label}
+          {required && (
+            <Box component="span" color="error.main" ml={0.5}>
+              *
+            </Box>
+          )}
+        </InputLabel>
+      )}
       <Box
         sx={{
           overflowX: 'auto',
           scrollSnapType: 'x mandatory',
           WebkitOverflowScrolling: 'touch',
+          border: 1,
+          borderColor: 'divider',
+          borderRadius: 1,
           '&::-webkit-scrollbar': { display: 'none' },
           ...(error && { outline: 1, outlineColor: 'error.main', borderRadius: 1 }),
           ...sx,
@@ -63,7 +91,7 @@ export default function IconField({
                 if (r) ref.current[icon] = r;
               }}
               sx={{
-                aspectRatio: '1 / 1',
+                height: 56,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

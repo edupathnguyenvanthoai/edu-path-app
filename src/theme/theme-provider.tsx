@@ -14,7 +14,7 @@ export type ThemeProviderProps = Partial<MuiThemeProviderProps> & {
   themeOverrides?: ThemeOptions;
 };
 
-export function ThemeProvider({ themeOverrides, children, ...other }: ThemeProviderProps) {
+export default function ThemeProvider({ themeOverrides, children, ...other }: ThemeProviderProps) {
   const theme = createTheme({
     themeOverrides,
   });

@@ -22,7 +22,7 @@
     "noEmit": true,
     "strictNullChecks": true
   },
-  "include": ["src"],
+  "include": ["src", "public/_mock/goals"],
   "exclude": ["node_modules"],
   "references": [
     {

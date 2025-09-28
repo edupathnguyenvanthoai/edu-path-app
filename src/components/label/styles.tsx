@@ -102,6 +102,7 @@ export const LabelRoot = styled('span', {
     fontWeight: theme.typography.fontWeightBold,
     borderRadius: Number(theme.shape.borderRadius || 0) * 0.75,
     transition: theme.transitions.create(['all'], { duration: theme.transitions.duration.shorter }),
+    overflow: 'hidden',
     ...defaultStyles,
     ...colorStyles,
     ...(disabled && { opacity: 0.48, pointerEvents: 'none' }),

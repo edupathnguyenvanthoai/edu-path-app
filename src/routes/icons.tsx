@@ -1,8 +1,8 @@
 import { useState, useDeferredValue } from 'react';
 
 import List from '@mui/material/List';
+import { Stack } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
-import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 
 import { allIconNames } from 'src/components/iconify/register-icons';
@@ -14,7 +14,7 @@ export default function IconPages() {
   const filter = useDeferredValue(search);
 
   return (
-    <Container maxWidth="xs" sx={{ height: '100dvh' }}>
+    <Stack>
       <TextField
         value={search}
         onChange={(event) => setSearch(event.target.value)}
@@ -31,6 +31,6 @@ export default function IconPages() {
             </ListItem>
           ))}
       </List>
-    </Container>
+    </Stack>
   );
 }

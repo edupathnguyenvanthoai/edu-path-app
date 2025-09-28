@@ -1,3 +1,5 @@
+import { varAlpha } from 'minimal-shared/utils';
+
 import { Card, Stack, Typography } from '@mui/material';
 
 import { Iconify } from '../iconify';
@@ -15,6 +17,7 @@ export function Empty() {
         borderColor: 'divider',
         borderStyle: 'dashed',
         height: 150,
+        bgcolor: (t) => varAlpha(t.vars.palette.background.neutralChannel, 0.5),
       }}
     >
       <Iconify width={40} icon="solar:inbox-bold-duotone" />

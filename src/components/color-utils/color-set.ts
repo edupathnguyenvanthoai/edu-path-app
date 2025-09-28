@@ -30,3 +30,6 @@ export const COLOR_SET = {
   indigo_500: '#6366F1',
   indigo_600: '#4F46E5',
 };
+
+export type ColorSet = typeof COLOR_SET;
+export const COLOR_LIST = Object.values(COLOR_SET);

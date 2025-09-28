@@ -33,6 +33,9 @@ const MuiButton: Components<Theme>['MuiButton'] = {
     disableElevation: true,
   },
   styleOverrides: {
+    root: {
+      minWidth: 'unset',
+    },
     containedInherit: ({ theme }) => [
       {
         color: theme.palette.common.white,

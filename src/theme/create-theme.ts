@@ -1,5 +1,7 @@
 import type { Theme } from '@mui/material/styles';
 
+import { viVN as coreViVN } from '@mui/material/locale';
+import { viVN as pickersViVN } from '@mui/x-date-pickers/locales';
 import { createTheme as createMuiTheme } from '@mui/material/styles';
 
 import { shadows } from './core/shadows';
@@ -24,7 +26,7 @@ export const baseTheme: ThemeOptions = {
       palette: palette.dark,
       shadows: shadows.dark,
       customShadows: customShadows.dark,
-    }
+    },
   },
   components,
   typography,
@@ -39,7 +41,7 @@ type CreateThemeProps = {
 };
 
 export function createTheme({ themeOverrides = {} }: CreateThemeProps = {}): Theme {
-  const theme = createMuiTheme(baseTheme, themeOverrides);
+  const theme = createMuiTheme(baseTheme, themeOverrides, coreViVN, pickersViVN);
 
   return theme;
 }

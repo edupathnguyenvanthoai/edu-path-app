@@ -1,9 +1,11 @@
+import type { BoxProps } from '@mui/material';
+
 import { useRef, useEffect } from 'react';
 
-import { Box, Stack, ButtonBase, FormControl, FormHelperText } from '@mui/material';
+import { Box, Stack, ButtonBase, InputLabel, FormControl, FormHelperText } from '@mui/material';
 
 import { Iconify } from '../iconify';
-import { COLOR_SET } from './color-set';
+import { COLOR_LIST } from './color-set';
 
 type ColorFieldProps = {
   value?: string;
@@ -11,6 +13,9 @@ type ColorFieldProps = {
   columns?: number;
   error?: boolean;
   helperText?: string;
+  sx?: BoxProps['sx'];
+  label?: string;
+  required?: boolean;
 };
 export default function ColorField({
   value,
@@ -18,22 +23,45 @@ export default function ColorField({
   columns = 6,
   error,
   helperText,
+  sx,
+  label,
+  required,
 }: ColorFieldProps) {
   const ref = useRef<Record<string, HTMLElement>>({});
   const autoScroll = useRef(true);
   useEffect(() => {
     if (value && ref.current[value] && autoScroll.current) {
-      ref.current[value].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      ref.current[value].scrollIntoView({ block: 'nearest', inline: 'center' });
       autoScroll.current = false;
     }
   }, [value]);
   return (
-    <FormControl>
+    <FormControl sx={sx}>
+      {label && (
+        <InputLabel
+          shrink
+          sx={{
+            mx: -0.75,
+            px: 0.75,
+            bgcolor: 'background.paper',
+          }}
+        >
+          {label}
+          {required && (
+            <Box component="span" color="error.main" ml={0.5}>
+              *
+            </Box>
+          )}
+        </InputLabel>
+      )}
       <Box
         sx={{
           overflowX: 'auto',
           scrollSnapType: 'x mandatory',
           WebkitOverflowScrolling: 'touch',
+          border: 1,
+          borderColor: 'divider',
+          borderRadius: 1,
           '&::-webkit-scrollbar': { display: 'none' },
           ...(error && { outline: 1, outlineColor: 'error.main', borderRadius: 1 }),
         }}
@@ -48,14 +76,14 @@ export default function ColorField({
             },
           }}
         >
-          {Object.values(COLOR_SET).map((color) => (
+          {COLOR_LIST.map((color) => (
             <Box
               key={color}
               ref={(r: HTMLElement) => {
                 if (r) ref.current[color] = r;
               }}
               sx={{
-                aspectRatio: '1 / 1',
+                height: 56,
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -69,7 +97,7 @@ export default function ColorField({
                   scale: value === color ? 1 : 0.6,
                   borderRadius: 1.5,
                   transition: 'all 0.2s',
-                  color: t=>t.palette.getContrastText(color),
+                  color: (t) => t.palette.getContrastText(color),
                 }}
                 onClick={() => {
                   onChange(color);
