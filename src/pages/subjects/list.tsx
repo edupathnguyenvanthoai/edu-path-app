@@ -15,13 +15,11 @@ export default function SubjectList() {
       <Stack spacing={1}>
         <SubjectHeader />
         <SearchSubject />
-        {listData.length === 0 ? (
-          <Empty />
-        ) : (
+        {!listData.length && <Empty />}
+        {listData &&
           listData.map((x) => (
             <CardViewSubject key={x.item.id} subject={x.item} matches={x.matches} />
-          ))
-        )}
+          ))}
         <DialogHandleSubject />
       </Stack>
     </Fade>
