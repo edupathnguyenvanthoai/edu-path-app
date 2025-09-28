@@ -6,9 +6,9 @@
   "private": false,
   "type": "module",
   "scripts": {
-    "dev": "bun --bun vite",
-    "start": "bun --bun vite preview",
-    "build": "bun --bun vite build",
+    "dev": "bun vite",
+    "start": "bun vite preview",
+    "build": "bun vite build",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:print": "bunx eslint --print-config eslint.config.mjs > eslint-show-config.json",
@@ -21,13 +21,15 @@
     "re:build-npm": "bun run clean && bun install && bun run build",
     "tsc:dev": "yarn dev & yarn tsc:watch",
     "tsc:watch": "tsc --noEmit --watch",
-    "tsc:print": "npx tsc --showConfig"
+    "tsc:print": "npx tsc --showConfig",
+    "cap:android": "bun run build && bunx cap copy && bunx cap open android"
   },
   "engines": {
     "node": ">=20"
   },
   "packageManager": "bun@1.2.22",
   "dependencies": {
+    "@capacitor/core": "^7.4.3",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
@@ -57,6 +59,7 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@capacitor/cli": "^7.4.3",
     "@eslint/js": "^9.36.0",
     "@types/node": "^22.18.6",
     "@types/react": "^19.1.13",
