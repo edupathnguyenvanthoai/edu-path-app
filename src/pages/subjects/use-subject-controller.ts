@@ -68,7 +68,7 @@ export const useSubjectController = () => {
       const id = await db.subjects.add(subject);
       await Promise.all(
         exams
-          .filter((i) => i.count)
+          ?.filter((i) => i.count)
           .map(async (exam) => {
             await db.subjectExamTypeLinks.add({
               examTypeId: exam.id,
@@ -91,7 +91,7 @@ export const useSubjectController = () => {
           await db.subjectExamTypeLinks.where('subjectId').equals(id).delete();
           await Promise.all(
             exams
-              .filter((i) => i.count)
+              ?.filter((i) => i.count)
               .map(async (exam) => {
                 await db.subjectExamTypeLinks.add({
                   examTypeId: exam.id,

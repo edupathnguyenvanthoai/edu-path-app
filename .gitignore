@@ -36,7 +36,3 @@ build
 tsconfig.tsbuildinfo
 .ncurc.js
 knip.jsonc
-
-android/*
-ios/*
-dist/*

@@ -22,7 +22,8 @@
     "tsc:dev": "yarn dev & yarn tsc:watch",
     "tsc:watch": "tsc --noEmit --watch",
     "tsc:print": "npx tsc --showConfig",
-    "cap:android": "bun run build && bunx cap copy && bunx cap open android"
+    "cap:android": "bun run build && bunx cap copy android && bunx cap sync android",
+    "cap:ios": "bun run build && bunx cap copy ios && bunx cap sync ios"
   },
   "engines": {
     "node": ">=20"

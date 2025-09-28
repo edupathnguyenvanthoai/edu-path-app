@@ -9,7 +9,7 @@ import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgr
 
 // ----------------------------------------------------------------------
 
-const renderFallback = () => (
+export const renderFallback = () => (
   <Box
     sx={{
       display: 'flex',
@@ -45,6 +45,10 @@ export const routesSection: RouteObject[] = [
       {
         path: 'subjects',
         Component: lazy(() => import('src/pages/subjects/list')),
+      },
+      {
+        path: 'settings',
+        Component: lazy(()=>import("src/pages/settings/settings-page")),
       },
       {
         path: 'icons',

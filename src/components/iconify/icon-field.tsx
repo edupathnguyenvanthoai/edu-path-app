@@ -67,7 +67,6 @@ function IconField({
           border: 1,
           borderColor: 'divider',
           borderRadius: 1,
-          '&::-webkit-scrollbar': { display: 'none' },
           ...(error && { outline: 1, outlineColor: 'error.main', borderRadius: 1 }),
           ...sx,
         }}

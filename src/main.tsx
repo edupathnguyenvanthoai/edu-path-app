@@ -1,20 +1,22 @@
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import { routesSection } from './routes/sections';
 import { ErrorBoundary } from './routes/components';
+import { routesSection, renderFallback } from './routes/sections';
 
 const App = lazy(() => import('./app'));
-
+const ThemeProvider = lazy(() => import('./theme/theme-provider'));
 // ----------------------------------------------------------------------
 
 const router = createBrowserRouter([
   {
-    Component: () => (
-      <App>
-        <Outlet />
-      </App>
+    element: (
+      <Suspense fallback={renderFallback()}>
+        <App>
+          <Outlet />
+        </App>
+      </Suspense>
     ),
     errorElement: <ErrorBoundary />,
     children: routesSection,
@@ -23,4 +25,8 @@ const router = createBrowserRouter([
 
 const root = createRoot(document.getElementById('root')!);
 
-root.render(<RouterProvider router={router} />);
+root.render(
+  <ThemeProvider>
+    <RouterProvider router={router} />
+  </ThemeProvider>
+);

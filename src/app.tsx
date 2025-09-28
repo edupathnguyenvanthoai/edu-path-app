@@ -1,7 +1,7 @@
 import 'src/global.css';
 import 'dayjs/locale/vi';
 
-import { lazy, type PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 
 import Container from '@mui/material/Container';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -9,22 +9,25 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import Toaster from './components/layout/toaster';
 import useConfigCapacitor from './config-capacitor';
-import BottomNavigater from './components/layout/bottomNavigater';
+import HeaderFilter from './components/layout/header-filter';
+import BottomNavigater from './components/layout/bottom-navigater';
 
-const ThemeProvider = lazy(() => import('./theme/theme-provider'));
 // ----------------------------------------------------------------------
 
 export default function App({ children }: PropsWithChildren) {
-  useConfigCapacitor();
+  const { bottom, top } = useConfigCapacitor();
   return (
-    <ThemeProvider>
-      <LocalizationProvider adapterLocale="vi" dateAdapter={AdapterDayjs}>
-        <Container maxWidth="xs" sx={{ minHeight: '100vh', pb: 10, pt: 2, position: 'relative' }}>
-          {children}
-        </Container>
-        <BottomNavigater />
-        <Toaster />
-      </LocalizationProvider>
-    </ThemeProvider>
+    <LocalizationProvider adapterLocale="vi" dateAdapter={AdapterDayjs}>
+      <Container
+        maxWidth="xs"
+        sx={{ minHeight: '100vh', pb: 10 + bottom, pt: top, position: 'relative' }}
+      >
+        {children}
+      </Container>
+
+      <HeaderFilter top={top} />
+      <BottomNavigater bottom={bottom} />
+      <Toaster />
+    </LocalizationProvider>
   );
 }

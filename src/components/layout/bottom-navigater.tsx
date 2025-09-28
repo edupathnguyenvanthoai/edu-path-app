@@ -33,10 +33,11 @@ const TAB_ITEMS = [
     label: 'Cài Đặt',
   },
 ];
-function BottomNavigater() {
+
+function BottomNavigater({ bottom }: { bottom: number }) {
   const pathname = usePathname();
   const router = useRouter();
-  const pathnameTab = pathname.split('/')[1] ?? '/schedule';
+  const pathnameTab = pathname.split('/')[1];
 
   useEffect(() => {
     localStorage.setItem('pathname', pathname);
@@ -45,10 +46,18 @@ function BottomNavigater() {
   return (
     <Container
       maxWidth="xs"
-      sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, backdropFilter: 'blur(4px)' }}
+      sx={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backdropFilter: 'blur(4px)',
+        pb: bottom,
+        zIndex: 50,
+      }}
     >
       <Tabs
-        value={pathnameTab}
+        value={pathnameTab || 'subjects'}
         onChange={(_, value) => router.replace('/' + value)}
         sx={{
           p: 1,

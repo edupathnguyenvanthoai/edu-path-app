@@ -9,9 +9,8 @@ import { Iconify } from '../../components/iconify';
 
 export default function ContentStructExams() {
   const exams = useLiveQuery(() => db.examTypes.toArray(), []);
-
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} mt={2}>
       {exams?.map((x, index) => (
         <Controller
           key={x.id}
@@ -22,22 +21,13 @@ export default function ContentStructExams() {
             count: 0,
           }}
           render={({ field }) => (
-            <Card
-              component={Stack}
-              direction="row"
-              p={2}
-              alignItems="center"
-              sx={{
-                border: 1,
-                borderColor: 'divider',
-                borderStyle: 'dashed',
-              }}
-            >
+            <Card component={Stack} direction="row" p={2} alignItems="center">
               <Avatar
                 sx={{
                   width: 32,
                   height: 32,
                   mr: 1,
+                  borderRadius: 1,
                   bgcolor: field.value.config.bgcolor,
                   color: (t) => t.palette.getContrastText(field.value.config.bgcolor),
                 }}
@@ -45,7 +35,7 @@ export default function ContentStructExams() {
                 <Iconify icon={field.value.config.icon as any} />
               </Avatar>
               <Typography
-                color={field.value.count === 0 ? 'divider' : 'text.primary'}
+                color={field.value.count === 0 ? 'text.disabled' : 'text.primary'}
                 flex={1}
                 variant="h6"
               >
@@ -53,7 +43,6 @@ export default function ContentStructExams() {
               </Typography>
               <Button
                 variant="contained"
-                color="inherit"
                 disabled={field.value.count === 0}
                 sx={{ minWidth: 'unset', p: 0.75 }}
                 onClick={() => field.onChange({ ...field.value, count: field.value.count - 1 })}
@@ -65,7 +54,6 @@ export default function ContentStructExams() {
               </Typography>
               <Button
                 variant="contained"
-                color="inherit"
                 disabled={field.value.count === 10}
                 sx={{ minWidth: 'unset', p: 0.75 }}
                 onClick={() => field.onChange({ ...field.value, count: field.value.count + 1 })}

@@ -8,9 +8,10 @@ import { useSubjectController, type SubjectListData } from './use-subject-contro
 
 export default function useDialogHandleSubject() {
   const [search, setSearch] = useSearchParams();
-  const open = search.get('open-dialog') === 'dialog-subject';
+  const exams = formControl.watch('exams');
+  const open = search.get('open-dialog') === 'dialog-subject' && Boolean(exams);
   const { isSubmitSuccessful } = useFormState({ control: formControl.control });
-  const { update, create } = useSubjectController();
+  const { update, create, remove } = useSubjectController();
 
   const openDialog = useCallback(
     (defaultValues?: SubjectListData) => {
@@ -18,14 +19,22 @@ export default function useDialogHandleSubject() {
         e.set('open-dialog', 'dialog-subject');
         return e;
       });
-      formControl.reset(defaultValues ?? {});
+      formControl.reset(
+        defaultValues ?? {
+          category: search.get('category') || 'Tự chọn',
+          admissionGroups: search.get('admissionGroups')?.split(',').filter(Boolean) || [],
+          exams: [],
+        }
+      );
     },
-    [setSearch]
+    [search, setSearch]
   );
 
   const closeDialog = useCallback(() => {
-    setSearch({});
-    formControl.reset({});
+    setSearch((e) => {
+      e.delete('open-dialog');
+      return e;
+    });
   }, [setSearch]);
 
   const handleSubject = useCallback(
@@ -50,9 +59,23 @@ export default function useDialogHandleSubject() {
     [create, update]
   );
 
+  const handleRemove = useCallback(() => {
+    const id = formControl.getValues('id');
+    if (id !== undefined) {
+      remove(id)
+        .then(() => {
+          toast.success(`Xoá môn học "${formControl.getValues('name')}" thành công!`);
+          closeDialog();
+        })
+        .catch(() => {
+          toast.error(`Xoá môn học "${formControl.getValues('name')}" thất bại!`);
+        });
+    }
+  }, [closeDialog, remove]);
+
   useEffect(() => {
     if (isSubmitSuccessful) closeDialog();
   }, [closeDialog, isSubmitSuccessful]);
 
-  return { open, openDialog, closeDialog, handleSubject };
+  return { open, openDialog, closeDialog, handleSubject, handleRemove };
 }

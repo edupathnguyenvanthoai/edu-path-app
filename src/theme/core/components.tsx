@@ -260,6 +260,14 @@ const MuiDialog: Components<Theme>['MuiDialog'] = {
   },
 };
 
+const MuiDialogTitle: Components<Theme>['MuiDialogTitle'] = {
+  styleOverrides: {
+    root: ({ theme: t }) => ({
+      textTransform: 'uppercase',
+    }),
+  },
+}
+
 const MuiTabs: Components<Theme>['MuiTabs'] = {
   defaultProps: {
     slotProps: {
@@ -349,6 +357,7 @@ export const components = {
   MuiDatePicker,
   MuiMobileDatePicker,
   MuiDialog,
+  MuiDialogTitle,
   MuiMenu,
   MuiListSubheader,
   MuiTabs,

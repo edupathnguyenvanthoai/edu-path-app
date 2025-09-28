@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { useWatch, useFormState } from 'react-hook-form';
 
 import {
@@ -22,45 +22,28 @@ import useDialogHandleSubject from './use-dialog-handle-subject';
 import ContentStructInformation from './content-struct-information';
 
 export function DialogHandleSubject() {
-  const [search, setSearch] = useSearchParams();
-  const tab = search.get('tab-subject-config') || 'information';
+  const [tab, setTab] = useState<'exams' | 'information'>('information');
   const state = useFormState({ control: formControl.control });
-  const { open, closeDialog, handleSubject } = useDialogHandleSubject();
+  const { open, closeDialog, handleSubject, handleRemove } = useDialogHandleSubject();
   const [id] = useWatch({ name: ['id'], control: formControl.control });
-  const title = id ? 'Cập nhật' : 'Tạo mới';
-  const okText = id ? 'Cập nhật' : 'Lưu lại';
+  const title = id ? 'Cập nhật' : 'Tạo mới môn học';
+  const okText = 'Lưu lại';
+
+  useEffect(() => {
+    if (!open) {
+      setTab('information');
+    }
+  }, [open]);
 
   return (
-    <Dialog
-      open={open}
-      scroll="body"
-      sx={{ overflow: 'unset' }}
-      slotProps={{
-        transition: {
-          unmountOnExit: true,
-          mountOnEnter: true,
-        },
-      }}
-    >
+    <Dialog open={open} scroll="body" sx={{ overflow: 'unset' }}>
       <DialogTitle display="flex" alignItems="center">
         <Box flex={1}>{title}</Box>
-        {id && <ButtonDelete onDelete={() => {}} />}
+        {id && <ButtonDelete onDelete={handleRemove} />}
       </DialogTitle>
       <DialogContent sx={{ overflow: 'unset' }}>
-        <Stack direction="row" mb={2} alignItems="center" justifyContent="end">
-          <ButtonTabsGroup
-            value={tab}
-            onChange={(_, v) => {
-              setSearch(
-                (e) => {
-                  if (v === 'information') e.delete('tab-subject-config');
-                  else e.set('tab-subject-config', v);
-                  return e;
-                },
-                { replace: true }
-              );
-            }}
-          >
+        <Stack direction="row" alignItems="center" justifyContent="end">
+          <ButtonTabsGroup value={tab} onChange={(_, v) => setTab(v)}>
             <Tab value="information" label="Thông tin" />
             <Tab value="exams" label="Bài kiểm tra" />
           </ButtonTabsGroup>
