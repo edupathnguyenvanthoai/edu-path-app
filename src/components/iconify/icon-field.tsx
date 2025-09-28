@@ -1,6 +1,6 @@
 import type { BoxProps } from '@mui/material';
 
-import { useRef, useEffect, memo } from 'react';
+import { memo, useRef, useEffect } from 'react';
 
 import { Box, Stack, ButtonBase, InputLabel, FormControl, FormHelperText } from '@mui/material';
 
@@ -19,8 +19,6 @@ type IconFieldProps = {
   label?: string;
   required?: boolean;
 };
-
-export default memo(IconField);
 
 function IconField({
   value,
@@ -41,7 +39,7 @@ function IconField({
     }
   }, [value]);
   const keys = Object.keys(solarIcons) as (keyof typeof solarIcons)[];
-  
+
   return (
     <FormControl>
       {label && (
@@ -124,3 +122,5 @@ function IconField({
     </FormControl>
   );
 }
+
+export default memo(IconField);

@@ -1,18 +1,21 @@
 import 'src/global.css';
 import 'dayjs/locale/vi';
 
-import { type PropsWithChildren } from 'react';
+import { lazy, type PropsWithChildren } from 'react';
 
 import Container from '@mui/material/Container';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import Toaster from './components/layout/toaster';
-import ThemeProvider from './theme/theme-provider';
+import useConfigCapacitor from './config-capacitor';
 import BottomNavigater from './components/layout/bottomNavigater';
+
+const ThemeProvider = lazy(() => import('./theme/theme-provider'));
 // ----------------------------------------------------------------------
 
 export default function App({ children }: PropsWithChildren) {
+  useConfigCapacitor();
   return (
     <ThemeProvider>
       <LocalizationProvider adapterLocale="vi" dateAdapter={AdapterDayjs}>

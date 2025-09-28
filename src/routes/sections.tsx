@@ -7,8 +7,6 @@ import { Outlet, Navigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 
-import IconPages from './icons';
-
 // ----------------------------------------------------------------------
 
 const renderFallback = () => (
@@ -50,7 +48,7 @@ export const routesSection: RouteObject[] = [
       },
       {
         path: 'icons',
-        Component: IconPages,
+        Component: lazy(() => import('./icons')),
       },
     ],
   },
