@@ -10,6 +10,7 @@ import { db } from 'src/schema/schema';
 
 import { searchWithFuse } from '../../components/hightlight';
 
+
 export type SubjectListData = Subject & {
   exams: (ExamType & {
     count: number;

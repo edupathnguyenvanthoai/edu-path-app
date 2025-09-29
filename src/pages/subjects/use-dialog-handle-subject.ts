@@ -4,7 +4,11 @@ import { useFormState } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
 
 import { formControl } from './formControl';
+import { solarIcons } from '../../components/iconify/icon-solar';
+import { COLOR_LIST } from '../../components/color-utils/color-set';
 import { useSubjectController, type SubjectListData } from './use-subject-controller';
+
+const solarIconsName = Object.keys(solarIcons);
 
 export default function useDialogHandleSubject() {
   const [search, setSearch] = useSearchParams();
@@ -21,6 +25,10 @@ export default function useDialogHandleSubject() {
       });
       formControl.reset(
         defaultValues ?? {
+          config: {
+            color: COLOR_LIST[Math.floor(Math.random() * COLOR_LIST.length)],
+            icon: solarIconsName[Math.floor(Math.random() * solarIconsName.length)],
+          },
           category: search.get('category') || 'Tự chọn',
           admissionGroups: search.get('admissionGroups')?.split(',').filter(Boolean) || [],
           exams: [],

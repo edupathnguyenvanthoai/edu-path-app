@@ -42,9 +42,9 @@ export default function ContentStructExams() {
                 {field.value.name}
               </Typography>
               <Button
-                variant="contained"
+                color="inherit"
                 disabled={field.value.count === 0}
-                sx={{ minWidth: 'unset', p: 0.75 }}
+                sx={{ minWidth: 'unset', p: 0.75, bgcolor: 'background.neutral' }}
                 onClick={() => field.onChange({ ...field.value, count: field.value.count - 1 })}
               >
                 <Iconify sx={{ scale: -1 }} icon="eva:arrow-ios-forward-fill" />
@@ -53,9 +53,9 @@ export default function ContentStructExams() {
                 {field.value.count}
               </Typography>
               <Button
-                variant="contained"
+                color="inherit"
                 disabled={field.value.count === 10}
-                sx={{ minWidth: 'unset', p: 0.75 }}
+                sx={{ minWidth: 'unset', p: 0.75, bgcolor: 'background.neutral' }}
                 onClick={() => field.onChange({ ...field.value, count: field.value.count + 1 })}
               >
                 <Iconify icon="eva:arrow-ios-forward-fill" />

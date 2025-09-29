@@ -15,6 +15,7 @@ import {
 
 import { formControl } from './formControl';
 import { Iconify } from '../../components/iconify';
+import ContentStructIcon from './content-struct-icon';
 import ContentStructExams from './content-struct-exams';
 import ButtonDelete from '../../components/button-delete';
 import ButtonTabsGroup from '../../components/button-tabs-group';
@@ -22,7 +23,7 @@ import useDialogHandleSubject from './use-dialog-handle-subject';
 import ContentStructInformation from './content-struct-information';
 
 export function DialogHandleSubject() {
-  const [tab, setTab] = useState<'exams' | 'information'>('information');
+  const [tab, setTab] = useState<'exams' | 'information' | 'icon'>('information');
   const state = useFormState({ control: formControl.control });
   const { open, closeDialog, handleSubject, handleRemove } = useDialogHandleSubject();
   const [id] = useWatch({ name: ['id'], control: formControl.control });
@@ -46,6 +47,7 @@ export function DialogHandleSubject() {
           <ButtonTabsGroup value={tab} onChange={(_, v) => setTab(v)}>
             <Tab value="information" label="Thông tin" />
             <Tab value="exams" label="Bài kiểm tra" />
+            <Tab value="icon" label="Biểu tượng" />
           </ButtonTabsGroup>
         </Stack>
 
@@ -54,6 +56,9 @@ export function DialogHandleSubject() {
         </Collapse>
         <Collapse in={tab === 'exams'}>
           <ContentStructExams />
+        </Collapse>
+        <Collapse in={tab === 'icon'}>
+          <ContentStructIcon />
         </Collapse>
       </DialogContent>
       <DialogActions>

@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Controller } from 'react-hook-form';
 import { useLiveQuery } from 'dexie-react-hooks';
 
@@ -12,18 +11,13 @@ import {
   TextField,
   Typography,
   Autocomplete,
+  InputAdornment,
 } from '@mui/material';
 
 import { db } from '../../schema/schema';
 import { formControl } from './formControl';
 import { CATEGORY } from '../../schema/constant';
 import { Iconify } from '../../components/iconify';
-import IconField from '../../components/iconify/icon-field';
-import { solarIcons } from '../../components/iconify/icon-solar';
-import ColorField from '../../components/color-utils/color-field';
-import { COLOR_LIST } from '../../components/color-utils/color-set';
-
-const solarIconsName = Object.keys(solarIcons);
 
 export default function ContentStructInformation() {
   const [color, icon, exams] = formControl.watch(['config.color', 'config.icon', 'exams']);
@@ -33,19 +27,6 @@ export default function ContentStructInformation() {
       async () => [...new Set((await db.subjects.toArray()).map((x) => x.admissionGroups).flat())],
       []
     ) || [];
-
-  useEffect(() => {
-    if (!color)
-      formControl.setValue(
-        'config.color',
-        COLOR_LIST[Math.floor(Math.random() * COLOR_LIST.length)]
-      );
-    if (!icon)
-      formControl.setValue(
-        'config.icon',
-        solarIconsName[Math.floor(Math.random() * solarIconsName.length)]
-      );
-  }, [color, icon]);
 
   return (
     <Stack spacing={2} mt={2}>
@@ -70,6 +51,22 @@ export default function ContentStructInformation() {
             placeholder="Vui lòng nhập tên môn học"
             error={invalid}
             helperText={error?.message}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Avatar sx={{
+                      borderRadius: 1,
+                      mr: -0.5,
+                      bgcolor: color,
+                      color: (t) => t.palette.getContrastText(color),
+                    }}>
+                      <Iconify width={0.55} icon={icon as any} />
+                    </Avatar>
+                  </InputAdornment>
+                ),
+              },
+            }}
           />
         )}
       />
@@ -138,43 +135,6 @@ export default function ContentStructInformation() {
                 label="Nhóm xét tuyển"
               />
             )}
-          />
-        )}
-      />
-
-      <Controller
-        control={formControl.control}
-        name="config.color"
-        defaultValue=""
-        render={({ field, fieldState: { error, invalid } }) => (
-          <ColorField
-            error={invalid}
-            helperText={error?.message}
-            value={field.value}
-            onChange={field.onChange}
-            label="Chọn màu"
-          />
-        )}
-      />
-      <Controller
-        control={formControl.control}
-        name="config.icon"
-        defaultValue=""
-        render={({ field, fieldState: { error, invalid } }) => (
-          <IconField
-            error={invalid}
-            helperText={error?.message}
-            value={field.value as any}
-            onChange={field.onChange}
-            label="Chọn biểu tượng"
-            sx={{
-              ...(color && {
-                '& button.active': {
-                  bgcolor: color,
-                  color: (t) => t.palette.getContrastText(color),
-                },
-              }),
-            }}
           />
         )}
       />
