@@ -27,20 +27,19 @@ export default function SubjectPage() {
     [onOpen]
   );
 
-  const handleAdd = useCallback(
-    () =>
-      handleEdit({
-        name: '',
-        config: {
-          icon: solarIconsName[Math.floor(Math.random() * solarIconsName.length)],
-          color: COLOR_LIST[Math.floor(Math.random() * COLOR_LIST.length)],
-        },
-        weight: 0,
-        category: '',
-        admissionGroups: [],
-      }),
-    [handleEdit]
-  );
+  const handleAdd = useCallback(() => {
+    onOpen();
+    subjectFormControl.reset({
+      name: '',
+      config: {
+        icon: solarIconsName[Math.floor(Math.random() * solarIconsName.length)],
+        color: COLOR_LIST[Math.floor(Math.random() * COLOR_LIST.length)],
+      },
+      weight: 1,
+      category: '',
+      admissionGroups: [],
+    });
+  }, [onOpen]);
 
   return (
     <Stack spacing={2}>
@@ -48,7 +47,7 @@ export default function SubjectPage() {
         title="Môn học"
         action={
           <Button
-            onClick={handleAdd()}
+            onClick={handleAdd}
             variant="contained"
             startIcon={<Iconify icon="mingcute:add-line" />}
           >

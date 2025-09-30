@@ -1,14 +1,17 @@
 import { Controller } from 'react-hook-form';
 import { useLiveQuery } from 'dexie-react-hooks';
 
-import { Stack, MenuItem, TextField, Autocomplete } from '@mui/material';
+import { Stack, Avatar, MenuItem, TextField, Autocomplete, InputAdornment } from '@mui/material';
 
 import { db } from '../../../schema/schema';
 import { CATEGORY } from '../../../schema/constant';
+import { Iconify } from '../../../components/iconify';
+import { getTextColor } from '../../../utils/action-theme';
 import subjectFormControl from '../context/subject-form-control';
 
 const [, ...CATEGORY_LIST] = CATEGORY;
 export function ContentInfomation() {
+  const [color, icon] = subjectFormControl.watch(['config.color', 'config.icon']);
   const admissionGroups =
     useLiveQuery(
       async () => [...new Set((await db.subjects.toArray()).flatMap((x) => x.admissionGroups))],
@@ -20,7 +23,31 @@ export function ContentInfomation() {
       <Controller
         control={subjectFormControl.control}
         name="name"
-        render={({ field }) => <TextField {...field} label="Tên môn học" required />}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Avatar
+                      sx={{
+                        width: 32,
+                        height: 32,
+                        bgcolor: color,
+                        color: getTextColor(color),
+                      }}
+                    >
+                      <Iconify width={0.5} icon={icon as any} />
+                    </Avatar>
+                  </InputAdornment>
+                ),
+              },
+            }}
+            label="Tên môn học"
+            required
+          />
+        )}
       />
       <Stack direction="row" spacing={2}>
         <Controller
@@ -43,7 +70,7 @@ export function ContentInfomation() {
           render={({ field }) => (
             <TextField {...field} label="Hệ số môn" select fullWidth>
               {Array.from({ length: 2 }, (_e, i) => (
-                <MenuItem value={i + 1} key={i}>
+                <MenuItem key={i} value={i + 1}>
                   Hệ số {i + 1}
                 </MenuItem>
               ))}

@@ -29,7 +29,7 @@ const buttonSx = (size: number, color?: string): SxProps<Theme> => ({
     right: 0,
     width: size,
     height: size,
-    borderRadius: 2,
+    borderRadius: 1,
     transition: 'all 0.3s ease-in-out',
     zIndex: 0,
     boxShadow: 10,
