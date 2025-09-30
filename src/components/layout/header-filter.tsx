@@ -12,7 +12,7 @@ function HeaderFilter({ top }: { top: number }) {
         left: 0,
         right: 0,
         height: (t) => t.spacing(top - 1),
-        zIndex: 50,
+        zIndex: (t) => t.zIndex.modal + 50,
       }}
     />
   );

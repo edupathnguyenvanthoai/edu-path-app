@@ -42,7 +42,7 @@ export const TabView = memo(function TabView({
   );
 });
 
-export const TabItemView = memo(function TabItemView({
+export const TabViewItem = memo(function TabViewItem({
   value,
   children,
   ...props

@@ -8,14 +8,16 @@ import { Iconify } from '../iconify';
 
 export type ButtonDeleteProps = ButtonProps & {
   onDelete: () => void;
+  show?: boolean;
 };
-export default function ButtonDelete({ onDelete, ...props }: ButtonDeleteProps) {
+export default function ButtonDelete({ onDelete, show = true, ...props }: ButtonDeleteProps) {
   const [delIndex, setDelIndex] = useState(-1);
+  if (!show) return null;
   return (
     <ClickAwayListener onClickAway={() => delIndex !== -1 && setDelIndex(-1)}>
       <Button
         {...props}
-        color={ delIndex !== -1 ? 'error' : "inherit"}
+        color={delIndex !== -1 ? 'error' : 'inherit'}
         onClick={() => (delIndex !== -1 ? onDelete() : setDelIndex(1))}
       >
         <Iconify icon="solar:trash-bin-trash-bold" />

@@ -118,4 +118,4 @@ export const solarIcons = {
   },
 };
 
-
+export const solarIconsName = Object.keys(solarIcons) as (keyof typeof solarIcons)[];

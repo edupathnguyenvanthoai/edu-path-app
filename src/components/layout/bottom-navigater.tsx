@@ -1,43 +1,20 @@
-import { memo, useEffect } from 'react';
+import { memo, useMemo, useEffect } from 'react';
 
 import { Tab, Tabs, Container } from '@mui/material';
 
 import { Iconify } from '../iconify';
+import { TAB_ITEMS } from '../../schema/constant';
 import { useRouter, usePathname } from '../../routes/hooks';
 
 export default memo(BottomNavigater);
-const TAB_ITEMS = [
-  {
-    value: 'subjects',
-    icon: 'solar:book-2-bold-duotone',
-    label: 'Môn Học',
-  },
-  {
-    value: 'goals',
-    icon: 'solar:target-bold-duotone',
-    label: 'Mục Tiêu',
-  },
-  {
-    value: 'schedule',
-    icon: 'solar:calendar-bold-duotone',
-    label: 'Lịch Học',
-  },
-  {
-    value: 'progress',
-    icon: 'solar:chart-square-bold-duotone',
-    label: 'Tiến Độ',
-  },
-  {
-    value: 'settings',
-    icon: 'solar:settings-minimalistic-bold-duotone',
-    label: 'Cài Đặt',
-  },
-];
 
 function BottomNavigater({ bottom }: { bottom: number }) {
   const pathname = usePathname();
   const router = useRouter();
-  const pathnameTab = pathname.split('/')[1];
+  const pathnameTab = useMemo(() => {
+    const key = pathname.split('/')[1];
+    return TAB_ITEMS.get(key) ? key : 'subjects';
+  }, [pathname]);
 
   useEffect(() => {
     localStorage.setItem('pathname', pathname);
@@ -57,7 +34,7 @@ function BottomNavigater({ bottom }: { bottom: number }) {
       }}
     >
       <Tabs
-        value={pathnameTab || 'subjects'}
+        value={pathnameTab}
         onChange={(_, value) => router.replace('/' + value)}
         sx={{
           p: 1,
@@ -71,7 +48,6 @@ function BottomNavigater({ bottom }: { bottom: number }) {
             minWidth: 'unset',
             zIndex: 1,
             fontSize: 10,
-            color: (t) => t.vars.palette.grey[500],
           },
           '& button.Mui-selected': {
             color: (t) => t.vars.palette.primary.contrastText,
@@ -84,7 +60,7 @@ function BottomNavigater({ bottom }: { bottom: number }) {
           },
         }}
       >
-        {TAB_ITEMS.map((item) => (
+        {Array.from(TAB_ITEMS.values()).map((item) => (
           <Tab
             iconPosition="top"
             icon={<Iconify width={24} icon={item.icon as any} />}

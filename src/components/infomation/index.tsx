@@ -16,7 +16,7 @@ export default function Infomation({header,  data, labelView: label = {}, sx }: 
       {Object.entries(data).map(([key, value]) => (
         <React.Fragment key={key}>
           <Grid size={4} display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="body2" sx={{ opacity: 0.8 }}>
+            <Typography variant="subtitle1" sx={{ opacity: 0.8 }}>
               {label[key] ?? key}
             </Typography>
             <span>:</span>

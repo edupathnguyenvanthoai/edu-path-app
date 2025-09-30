@@ -260,14 +260,6 @@ const MuiDialog: Components<Theme>['MuiDialog'] = {
   },
 };
 
-const MuiDialogTitle: Components<Theme>['MuiDialogTitle'] = {
-  styleOverrides: {
-    root: ({ theme: t }) => ({
-      textTransform: 'uppercase',
-    }),
-  },
-}
-
 const MuiTabs: Components<Theme>['MuiTabs'] = {
   defaultProps: {
     slotProps: {
@@ -299,8 +291,10 @@ const MuiTab: Components<Theme>['MuiTab'] = {
 
 const MuiAvatar: Components<Theme>['MuiAvatar'] = {
   defaultProps: {
-    children: <Iconify width={0.65} icon="solar:user-bold-duotone" />,
+    variant: "rounded",
+    children: <Iconify width={0.7} icon="solar:user-bold-duotone" />,
   },
+  
 };
 
 const MuiMenu: Components<Theme>['MuiMenu'] = {
@@ -357,7 +351,6 @@ export const components = {
   MuiDatePicker,
   MuiMobileDatePicker,
   MuiDialog,
-  MuiDialogTitle,
   MuiMenu,
   MuiListSubheader,
   MuiTabs,

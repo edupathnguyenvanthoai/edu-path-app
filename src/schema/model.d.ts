@@ -33,14 +33,15 @@ type SubjectExamTypeLink = {
 type Goal = {
   id?: number;
   subjectId: Subject['id'];
-  examType: ExamType['id'];
+  examTypeId: ExamType['id'];
   targetScore: number; // số điểm môn học cơ bản
-  dueDate: Dayjs; // ngày dự kiến sẽ kiểm tra
 };
 
 type Score = {
   id?: number;
-  goalId: Goal['id'];
+  goalId?: Goal['id'];
+  subjectId: Subject['id'];
+  examTypeId: ExamType['id'];
   score: number;
   createdAt: Dayjs; // ngày nhập điểm
   updatedAt: Dayjs; // ngày sửa điểm

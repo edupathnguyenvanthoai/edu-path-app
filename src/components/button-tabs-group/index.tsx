@@ -10,9 +10,12 @@ export default function ButtonTabsGroup(props: ButtonTabsGroupProps) {
       sx={{
         width: 'fit-content',
         bgcolor: (t) => t.vars.palette.background.neutral,
-        p: 0.5,
         borderRadius: 1,
+        p: 0.5,
         minHeight: 'unset',
+        '& .MuiTabs-scroller': {
+          borderRadius: 0.75,
+        },
         '& .MuiTabs-list': {
           justifyContent: 'flex-start',
         },
@@ -22,10 +25,10 @@ export default function ButtonTabsGroup(props: ButtonTabsGroupProps) {
         },
         '& .MuiTabs-indicator': {
           height: 1,
-          bgcolor: t=>t.vars.palette.background.paper,
+          bgcolor: (t) => t.vars.palette.background.paper,
           borderRadius: 0.75,
         },
-        ...props.sx
+        ...props.sx,
       }}
     />
   );

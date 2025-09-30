@@ -20,7 +20,14 @@ export default function App({ children }: PropsWithChildren) {
     <LocalizationProvider adapterLocale="vi" dateAdapter={AdapterDayjs}>
       <Container
         maxWidth="xs"
-        sx={{ minHeight: '100vh', pb: 10 + bottom, pt: top, position: 'relative' }}
+        sx={{
+          pt: top,
+          pb: 10 + bottom,
+          overflowY: 'auto',
+          minHeight: '100vh',
+          position: 'relative',
+          scrollSnapType: 'y mandatory',
+        }}
       >
         {children}
       </Container>

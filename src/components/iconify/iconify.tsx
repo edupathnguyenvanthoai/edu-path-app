@@ -1,7 +1,7 @@
 import type { IconProps } from '@iconify/react';
 
-import { useId } from 'react';
 import { Icon } from '@iconify/react';
+import { useId, forwardRef } from 'react';
 import { mergeClasses } from 'minimal-shared/utils';
 
 import { styled } from '@mui/material/styles';
@@ -18,7 +18,10 @@ export type IconifyProps = React.ComponentProps<typeof IconRoot> &
     icon: IconifyName;
   };
 
-export function Iconify({ className, icon, width = 20, height, sx, ...other }: IconifyProps) {
+export const Iconify = forwardRef<SVGSVGElement, IconifyProps>(function Iconify(
+  { className, icon, width = 20, height, scale, sx, ...other },
+  ref
+) {
   const id = useId();
 
   if (!allIconNames.includes(icon)) {
@@ -35,6 +38,7 @@ export function Iconify({ className, icon, width = 20, height, sx, ...other }: I
 
   return (
     <IconRoot
+      ref={ref}
       ssr
       id={id}
       icon={icon}
@@ -45,13 +49,14 @@ export function Iconify({ className, icon, width = 20, height, sx, ...other }: I
           flexShrink: 0,
           height: height ?? width,
           display: 'inline-flex',
+          scale,
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
     />
   );
-}
+});
 
 // ----------------------------------------------------------------------
 

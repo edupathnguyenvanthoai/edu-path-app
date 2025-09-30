@@ -31,3 +31,8 @@ ul {
 ::-webkit-scrollbar{ 
   display: none;
 }
+
+* {
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
+}

@@ -36,5 +36,19 @@ export function searchWithFuse<T = any>(
     return fuse.search(search);
   }
 
-  return list.map((x, i)=>({ item: x, refIndex: i}) as FuseResult<T>);
+  return list.map((x, i) => ({ item: x, refIndex: i }) as FuseResult<T>);
+}
+
+export function searchArray<T = any>(list?: T[], search?: string, keys?: FuseOptionKey<T>[]): T[] {
+  if (!list || !list.length) return [];
+  if (search) {
+    const fuse = new Fuse(list, {
+      keys,
+      ignoreDiacritics: true, // bỏ dấu tiếng việt
+      threshold: 0.4,
+    });
+    return fuse.search(search).map((x) => x.item);
+  }
+
+  return list;
 }

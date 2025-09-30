@@ -30,6 +30,11 @@ export const renderFallback = () => (
   </Box>
 );
 
+const SubjectsPage = lazy(() => import('src/pages/subjects/page'));
+// const GoalsPage = lazy(() => import('src/pages/goals/page'));
+const SettingsPage = lazy(() => import('src/pages/settings/page'));
+const IconsPage = lazy(() => import('./icons'));
+
 export const routesSection: RouteObject[] = [
   {
     element: (
@@ -44,17 +49,21 @@ export const routesSection: RouteObject[] = [
       },
       {
         path: 'subjects',
-        Component: lazy(() => import('src/pages/subjects/list')),
+        Component: SubjectsPage,
       },
+      // {
+      //   path: 'goals',
+      //   Component: GoalsPage,
+      // },
       {
         path: 'settings',
-        Component: lazy(()=>import("src/pages/settings/settings-page")),
-      },
-      {
-        path: 'icons',
-        Component: lazy(() => import('./icons')),
+        Component: SettingsPage,
       },
     ],
+  },
+  {
+    path: 'icons',
+    Component: IconsPage,
   },
   {
     path: '*',

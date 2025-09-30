@@ -20,6 +20,8 @@ type IconFieldProps = {
   required?: boolean;
 };
 
+ const keys = Object.keys(solarIcons) as (keyof typeof solarIcons)[];
+
 function IconField({
   value,
   onChange,
@@ -38,8 +40,6 @@ function IconField({
       autoScroll.current = false;
     }
   }, [value]);
-  const keys = Object.keys(solarIcons) as (keyof typeof solarIcons)[];
-
   return (
     <FormControl>
       {label && (
