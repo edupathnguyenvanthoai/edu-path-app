@@ -1,7 +1,7 @@
 import path from 'path';
 import checker from 'vite-plugin-checker';
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 
 // ----------------------------------------------------------------------
 
@@ -9,7 +9,11 @@ const PORT = 3050;
 
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      babel: {
+        plugins: [['babel-plugin-react-compiler']],
+      },
+    }),
     checker({
       typescript: true,
       eslint: {

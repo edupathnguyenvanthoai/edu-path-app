@@ -3,7 +3,8 @@ import { useRef, useMemo, useState, useEffect, useCallback } from 'react';
 
 export default function useStateParams(name: string, defaultValue?: string) {
   const [params, setParams] = useSearchParams();
-  const value = useMemo(() => params.get(name) || defaultValue || '', [params, name, defaultValue]);
+  const key = useMemo(() => toKebabCase(name), [name]);
+  const value = useMemo(() => params.get(key) || defaultValue || '', [params, key, defaultValue]);
   const [data, setData] = useState<string>(value);
 
   const isChange = useRef<boolean>(false);
@@ -28,39 +29,47 @@ export default function useStateParams(name: string, defaultValue?: string) {
       setParams(
         (e) => {
           if (!data || data === defaultValue) {
-            e.delete(name);
+            e.delete(key);
             return e;
           }
-          e.set(name, data || '');
+          e.set(key, data || '');
           return e;
         },
         { replace: true }
       );
       isChange.current = false;
     }
-  }, [value, setParams, name, data, defaultValue]);
+  }, [value, setParams, key, data, defaultValue]);
 
   return [data, setter] as const;
 }
-
-export function useParams<T>(defaultValue: T) {
+type Params = Record<string, string | number | boolean>;
+export function useParams(defaultValue: Params = {}) {
   const [search, setSearch] = useSearchParams();
   const data = useMemo(
     () =>
-      Object.entries(defaultValue ?? {}).reduce(
-        (acc, [key, value]) => ({ ...acc, [key]: search.get(key) || value }),
-        {} as T
-      ),
+      Object.entries(defaultValue ?? {}).reduce((acc, [key, value]) => {
+        let val: number | string | boolean = search.get(toKebabCase(key)) || value;
+        if (typeof value === 'boolean') val = val === 'true';
+        if (typeof value === 'number') val = Number(val);
+        if (typeof value === 'string') val = String(val);
+        return { ...acc, [key]: val };
+      }, {} as Params),
     [defaultValue, search]
   );
 
   const setData = useCallback(
-    (newData: Record<string, string>) => {
+    (newData?: Record<string, string | number | boolean>) => {
       setSearch(
         (e) => {
-          Object.keys(defaultValue ?? {}).forEach((key) => {
-            if (newData[key] || newData[key] === defaultValue[key as keyof T]) e.delete(key);
-            else e.set(key, newData[key]);
+          if (!newData) {
+            Object.keys(defaultValue).map((k) => e.delete(toKebabCase(k)));
+            return e;
+          }
+          Object.entries(newData).map(([k, v]) => {
+            const value = v.toString();
+            if (value === defaultValue[k].toString()) e.delete(toKebabCase(k));
+            else e.set(toKebabCase(k), value);
           });
           return e;
         },
@@ -71,4 +80,12 @@ export function useParams<T>(defaultValue: T) {
   );
 
   return [data, setData] as const;
+}
+
+function toKebabCase(str: string): string {
+  return str
+    .trim()
+    .replace(/([a-z])([A-Z])/g, '$1-$2') // tách camelCase
+    .replace(/\s+/g, '-') // thay khoảng trắng bằng -
+    .toLowerCase();
 }

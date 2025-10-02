@@ -1,7 +1,7 @@
 import type { IconProps } from '@iconify/react';
 
 import { Icon } from '@iconify/react';
-import { useId, forwardRef } from 'react';
+import { memo, forwardRef } from 'react';
 import { mergeClasses } from 'minimal-shared/utils';
 
 import { styled } from '@mui/material/styles';
@@ -18,45 +18,48 @@ export type IconifyProps = React.ComponentProps<typeof IconRoot> &
     icon: IconifyName;
   };
 
-export const Iconify = forwardRef<SVGSVGElement, IconifyProps>(function Iconify(
-  { className, icon, width = 20, height, scale, sx, ...other },
-  ref
-) {
-  const id = useId();
+export const Iconify = memo(
+  forwardRef<SVGSVGElement, IconifyProps>(function Iconify(
+    { className, icon, width = 20, height, scale, sx, ...other },
+    ref
+  ) {
+    if (!icon) {
+      return null;
+    }
 
-  if (!allIconNames.includes(icon)) {
-    console.warn(
-      [
-        `Icon "${icon}" is currently loaded online, which may cause flickering effects.`,
-        `To ensure a smoother experience, please register your icon collection for offline use.`,
-        `More information is available at: https://docs.minimals.cc/icons/`,
-      ].join('\n')
+    if (!allIconNames.includes(icon)) {
+      console.warn(
+        [
+          `Icon "${icon}" is currently loaded online, which may cause flickering effects.`,
+          `To ensure a smoother experience, please register your icon collection for offline use.`,
+          `More information is available at: https://docs.minimals.cc/icons/`,
+        ].join('\n')
+      );
+    }
+
+    registerIcons();
+
+    return (
+      <IconRoot
+        ref={ref}
+        ssr
+        icon={icon}
+        className={mergeClasses([iconifyClasses.root, className])}
+        sx={[
+          {
+            width,
+            flexShrink: 0,
+            height: height ?? width,
+            display: 'inline-flex',
+            scale,
+          },
+          ...(Array.isArray(sx) ? sx : [sx]),
+        ]}
+        {...other}
+      />
     );
-  }
-
-  registerIcons();
-
-  return (
-    <IconRoot
-      ref={ref}
-      ssr
-      id={id}
-      icon={icon}
-      className={mergeClasses([iconifyClasses.root, className])}
-      sx={[
-        {
-          width,
-          flexShrink: 0,
-          height: height ?? width,
-          display: 'inline-flex',
-          scale,
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-      {...other}
-    />
-  );
-});
+  })
+);
 
 // ----------------------------------------------------------------------
 

@@ -1,45 +1,53 @@
-import { useMemo } from 'react';
-import { useWatch } from 'react-hook-form';
+import { useMemo, useEffect } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
+import { useWatch, useFormState } from 'react-hook-form';
 
 import {
   Tab,
   Box,
   Stack,
-  Alert,
   Dialog,
   Button,
   Collapse,
   Typography,
-  AlertTitle,
   DialogContent,
   DialogActions,
 } from '@mui/material';
 
 import { db } from '../../../schema/schema';
+import { getGoals } from '../hooks/use-goals';
 import { ViewTabDetail } from './view-tab-detail';
-import { Label } from '../../../components/label';
 import { useExpand } from './card-item-goal-view';
+import { useParams } from '../../../utils/use-params';
 import { ViewTabOverview } from './view-tab-overview';
 import ViewCircularScore from './view-circular-score';
+import { tabs } from '../hooks/use-dialog-config-goal';
 import ButtonTabsGroup from '../../../components/button-tabs-group';
-import { tabs, useDialogConfigGoal } from '../hooks/use-dialog-config-goal';
 import { CardViewSubjectSumaryExam } from './card-view-subject-sumary-exam';
-import { handleScoreChange, GoalConfigFormControl } from '../context/goal-config-form-control';
-
+import {
+  onUpdateSubmit,
+  handleScoreChange,
+  GoalConfigFormControl,
+} from '../context/goal-config-form-control';
 
 export function DialogConfigGoals() {
+  const { isSubmitting, isSubmitSuccessful } = useFormState(GoalConfigFormControl);
   const { setFalse } = useExpand();
-  const { open, onClose, tab, setTab } = useDialogConfigGoal();
   const examTypeMap = useLiveQuery(
     async () => new Map((await db.examTypes.toArray()).map((e) => [e.id!, e]))
   );
+
+  const [{ subjectId, tab }, setParams] = useParams({
+    tab: tabs[0],
+    subjectId: -1,
+  });
+
   const [color, icon, name, goals = []] = useWatch({
     control: GoalConfigFormControl.control,
     name: ['subject.config.color', 'subject.config.icon', 'subject.name', 'goals'],
   });
 
-  const { checkField, avgScore, isAvgAll } = useMemo(() => {
+  const { checkField, avgScore } = useMemo(() => {
     const _checkField = goals.reduce(
       (prev, current) => {
         prev[current.examTypeId!] = (prev[current.examTypeId!] ?? 0) + 1;
@@ -49,16 +57,27 @@ export function DialogConfigGoals() {
     );
 
     const _avgScore = handleScoreChange.getAvgScore(examTypeMap ?? new Map(), goals);
-    const _isAvgAll = goals.every((goal) => goal.targetScore === _avgScore);
     return {
       checkField: _checkField,
       avgScore: _avgScore,
-      isAvgAll: _isAvgAll,
     };
   }, [examTypeMap, goals]);
 
+  useEffect(() => {
+    if (subjectId !== -1 && typeof subjectId === 'number') {
+      getGoals(subjectId).then(GoalConfigFormControl.reset);
+    }
+  }, [subjectId]);
+
+  useEffect(() => {
+    if (isSubmitSuccessful && subjectId !== -1) {
+      setParams();
+      GoalConfigFormControl.reset();
+    }
+  }, [isSubmitSuccessful, setParams, subjectId]);
+
   return (
-    <Dialog open={open}>
+    <Dialog open={subjectId !== -1}>
       <DialogContent dividers sx={{ borderTop: 'none', pt: 0 }}>
         <Box
           sx={{
@@ -76,7 +95,7 @@ export function DialogConfigGoals() {
             <ButtonTabsGroup
               value={tab}
               onChange={(_, v) => {
-                setTab(v);
+                setParams({ tab: v });
                 setFalse();
               }}
             >
@@ -94,29 +113,31 @@ export function DialogConfigGoals() {
             />
           </Stack>
         </Box>
-        {examTypeMap && <CardViewSubjectSumaryExam name={name} icon={icon} color={color} checkField={checkField} examTypeMap={examTypeMap} />}
+        {examTypeMap && (
+          <CardViewSubjectSumaryExam
+            name={name}
+            icon={icon}
+            color={color}
+            checkField={checkField}
+            examTypeMap={examTypeMap}
+          />
+        )}
         <Box>
           <Collapse in={tabs[0] === tab} mountOnEnter unmountOnExit>
             <ViewTabOverview defaultScore={avgScore} />
-            <Collapse in={!isAvgAll}>
-              <Alert severity="warning">
-                <AlertTitle>Cập nhật lại mục tiêu</AlertTitle>
-                Môn học <Label>{name}</Label> đã được tinh chỉnh cho từng bài kiểm tra, khi bạn thay
-                đổi điểm số thì các mục tiêu của mỗi bài kiểm tra sẽ được trở lại thành điểm trung
-                bình cộng.
-              </Alert>
-            </Collapse>
           </Collapse>
-          <Collapse in={tabs[1] === tab} mountOnEnter unmountOnExit>
-            {examTypeMap && <ViewTabDetail examTypeMap={examTypeMap} checkField={checkField} />}
+          <Collapse in={tabs[1] === tab}>
+            <ViewTabDetail examTypeMap={examTypeMap!} />
           </Collapse>
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button color="inherit" onClick={onClose}>
+        <Button disabled={isSubmitting} color="inherit" onClick={() => setParams()}>
           Đóng
         </Button>
-        <Button variant="contained">Cập nhật</Button>
+        <Button loading={isSubmitting} variant="contained" onClick={onUpdateSubmit}>
+          Cập nhật
+        </Button>
       </DialogActions>
     </Dialog>
   );

@@ -1,5 +1,6 @@
-import { useMemo } from 'react';
 import { useBoolean } from 'ahooks';
+import { useMemo, useEffect } from 'react';
+import { useFormState } from 'react-hook-form';
 
 import { Stack, Button, Collapse, IconButton } from '@mui/material';
 
@@ -10,12 +11,20 @@ import { GoalListView } from './components/goal-list-view';
 import { GoalConfigView } from './components/goal-config-view';
 import SearchSubjects from '../subjects/components/search-subjects';
 import { DialogConfigGoals } from './components/dialog-config-goals';
+import { GoalConfigFormControl } from './context/goal-config-form-control';
 
 export default function GoalPage() {
   const { subjects, goalsMap } = useGoals();
+  const { isSubmitSuccessful } = useFormState(GoalConfigFormControl);
   const [config, setConfig] = useBoolean(false);
   const subjectGoals = useMemo(() => subjects.filter((s) => s.isGoal), [subjects]);
   const subjectGoalConfigs = useMemo(() => subjects.filter((s) => !s.isGoal), [subjects]);
+
+  useEffect(() => {
+    if (isSubmitSuccessful && config) {
+      setConfig.setFalse();
+    }
+  }, [config, isSubmitSuccessful, setConfig]);
 
   return (
     <>
@@ -40,11 +49,11 @@ export default function GoalPage() {
         />
         <SearchSubjects />
         <Stack>
-          <Collapse in={!config} mountOnEnter unmountOnExit>
-            <GoalListView subjects={subjectGoals} goalMap={goalsMap} />
+          <Collapse in={!config}>
+            <GoalListView subjects={subjectGoals} goalsMap={goalsMap} />
           </Collapse>
-          <Collapse in={config} mountOnEnter unmountOnExit>
-            <GoalConfigView subjects={subjectGoalConfigs}/>
+          <Collapse in={config}>
+            <GoalConfigView subjects={subjectGoalConfigs} />
           </Collapse>
         </Stack>
       </Stack>

@@ -11,9 +11,9 @@ export function useSubject() {
   return (
     useLiveQuery(async () => {
       const subject = await (
-        category ? db.subjects.where('category').equalsIgnoreCase(category) : db.subjects
+        category ? db.subjects.where('category').equalsIgnoreCase(category.toString()) : db.subjects
       ).toArray();
-      return searchArray(subject, search, ['category', 'name', 'admissionGroups']);
+      return searchArray(subject, search.toString(), ['category', 'name', 'admissionGroups']);
     }, [search, category]) || []
   );
 }

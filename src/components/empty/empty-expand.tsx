@@ -7,7 +7,7 @@ import { Iconify } from '../iconify';
 type EmptyProps = {
   in?: boolean;
   icon?: ReactNode;
-  title?: string;
+  title?: string | ReactNode;
 };
 
 export function EmptyExpand({ title, icon, in: open = true }: EmptyProps) {
@@ -29,7 +29,9 @@ export function EmptyExpand({ title, icon, in: open = true }: EmptyProps) {
         }}
       >
         {icon ?? <Iconify width={40} icon="solar:inbox-bold-duotone" />}
-        <Typography variant="body1">{title ?? 'Không có dữ liệu nào'}</Typography>
+        <Typography variant="body1" textAlign="center">
+          {title ?? 'Không có dữ liệu nào'}
+        </Typography>
       </Stack>
     </Fade>
   );

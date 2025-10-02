@@ -9,10 +9,8 @@ import { GoalConfigFormControl } from '../context/goal-config-form-control';
 
 type ViewTabDetailProps = {
   examTypeMap: Map<number, ExamType>;
-  checkField: Record<number, number>;
 };
-
-export function ViewTabDetail({ examTypeMap, checkField }: ViewTabDetailProps) {
+export function ViewTabDetail({ examTypeMap }: ViewTabDetailProps) {
   const { fields, remove, insert } = useFieldArray({
     control: GoalConfigFormControl.control,
     name: 'goals',
@@ -28,26 +26,24 @@ export function ViewTabDetail({ examTypeMap, checkField }: ViewTabDetailProps) {
   const onCopy = useCallback(
     (index: number) => () => {
       const goal = GoalConfigFormControl.getValues(`goals.${index}`);
+      insert(index, goal);
       const nameExam = examTypeMap.get(goal.examTypeId!)?.name;
       toast.success(`Đã thêm mục tiêu cho ${nameExam}`, { id: 'goal-msg' });
-      insert(index, goal);
     },
     [examTypeMap, insert]
   );
-
   return (
     <Stack spacing={1}>
-      {examTypeMap &&
-        fields.map((goal, index) => (
-          <CardItemGoalView
-            key={goal.id}
-            examType={examTypeMap}
-            index={index}
-            isDel={checkField[goal.examTypeId!] > 1}
-            onCopy={onCopy(index)}
-            onDelete={onDelete(index)}
-          />
-        ))}
+      {fields.map((goal, index) => (
+        <CardItemGoalView
+          key={goal.id}
+          examType={examTypeMap}
+          index={index}
+          onCopy={onCopy(index)}
+          onDelete={onDelete(index)}
+          isDel={fields.length > 1}
+        />
+      ))}
     </Stack>
   );
 }

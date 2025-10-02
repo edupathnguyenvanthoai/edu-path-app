@@ -51,15 +51,14 @@
     "dexie": "^4.2.0",
     "dexie-react-hooks": "^4.2.0",
     "es-toolkit": "^1.39.10",
-    "framer-motion": "^12.23.22",
     "fuse.js": "^7.1.0",
     "minimal-shared": "^1.0.15",
     "react": "^19.1.1",
     "react-apexcharts": "^1.7.0",
+    "react-compiler": "^1.0.3",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.63.0",
     "react-router-dom": "^7.9.2",
-    "simplebar-react": "^3.3.2",
     "sonner": "^2.0.7",
     "tinycolor2": "^1.6.0",
     "zustand": "^5.0.8"
@@ -73,7 +72,8 @@
     "@types/react-dom": "^19.1.9",
     "@types/tinycolor2": "^1.4.6",
     "@typescript-eslint/parser": "^8.44.1",
-    "@vitejs/plugin-react-swc": "^3.11.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "babel-plugin-react-compiler": "^19.1.0-rc.3",
     "eslint": "^9.36.0",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
@@ -85,7 +85,10 @@
     "prettier": "^3.6.2",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.44.1",
-    "vite": "^6.3.6",
-    "vite-plugin-checker": "^0.9.3"
+    "vite-plugin-checker": "^0.9.3",
+    "vite": "npm:rolldown-vite@7.1.14"
+  },
+  "overrides": {
+    "vite": "npm:rolldown-vite@7.1.14"
   }
 }

@@ -1,34 +1,24 @@
 import { useCallback } from 'react';
-import { useLiveQuery } from 'dexie-react-hooks';
 
 import { Grid, IconButton } from '@mui/material';
 
-import { db } from '../../../schema/schema';
 import { Iconify } from '../../../components/iconify';
+import { useParams } from '../../../utils/use-params';
 import { EmptyExpand } from '../../../components/empty/empty-expand';
-import { useDialogConfigGoal } from '../hooks/use-dialog-config-goal';
 import { CardViewSubject } from '../../subjects/components/card-view-subject';
-import { DEFAULT_GOAL_SCORE, GoalConfigFormControl } from '../context/goal-config-form-control';
 
 type GoalListViewProps = {
   subjects: Subject[];
 };
 export function GoalConfigView({ subjects }: GoalListViewProps) {
-  const { onOpen } = useDialogConfigGoal();
-  const examType = useLiveQuery(() => db.examTypes.toArray());
+  const [, setParams] = useParams({
+    subjectId: -1,
+  });
   const onSetting = useCallback(
     (s: Subject) => () => {
-      onOpen();
-      GoalConfigFormControl.reset({
-        subject: s,
-        goals: examType?.map((x) => ({
-          subjectId: s.id!,
-          examTypeId: x.id!,
-          targetScore: DEFAULT_GOAL_SCORE,
-        })),
-      });
+      setParams({ subjectId: s.id! });
     },
-    [examType, onOpen]
+    [setParams]
   );
 
   return (
@@ -40,7 +30,7 @@ export function GoalConfigView({ subjects }: GoalListViewProps) {
               subject={subject}
               action={
                 <IconButton onClick={onSetting(subject)}>
-                  <Iconify icon="solar:settings-bold-duotone" />
+                  <Iconify width={24} icon="solar:settings-bold-duotone" />
                 </IconButton>
               }
             />

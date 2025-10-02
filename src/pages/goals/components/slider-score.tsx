@@ -10,6 +10,7 @@ type SliderScoreProps = {
   onChange?: (value: number) => void;
   height?: number;
   sx?: SxProps<Theme>;
+  disabled?: boolean;
 };
 
 const marks = rangScore.map((v) => ({
@@ -17,7 +18,7 @@ const marks = rangScore.map((v) => ({
   label: v.toFixed(1),
 }));
 
-export function SliderScore({ value, onChange, height = 12, sx }: SliderScoreProps) {
+export function SliderScore({ value, onChange, height = 12, disabled, sx }: SliderScoreProps) {
   return (
     <Box
       sx={{
@@ -26,6 +27,7 @@ export function SliderScore({ value, onChange, height = 12, sx }: SliderScorePro
       }}
     >
       <Slider
+        disabled={disabled}
         min={0}
         max={10}
         value={value}

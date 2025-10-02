@@ -1,10 +1,12 @@
+import { toast } from 'sonner';
 import { createFormControl } from 'react-hook-form';
 
-import type { SubjectCheckGoal } from '../hooks/use-goals';
+import { updateGoals, type SubjectCheckGoal } from '../hooks/use-goals';
 
 type GoalConfigFormControlContext = {
   subject: SubjectCheckGoal;
   goals: Goal[];
+  isNew: boolean;
 };
 
 export const DEFAULT_GOAL_SCORE = 8.0;
@@ -39,3 +41,10 @@ export const handleScoreChange = {
   changeScore,
   getAvgScore,
 };
+
+export const onUpdateSubmit = formControl.handleSubmit(async (data) => {
+  const SubjectId = data.subject.id!;
+  const goals = data.goals;
+  await updateGoals(goals, SubjectId);
+  toast.success('Mục tiêu đã được cập nhật!', { id: 'goal-msg' });
+});

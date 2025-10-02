@@ -38,9 +38,9 @@ export function CardItemGoalView({
   onDelete,
 }: CardItemGoalViewProps) {
   const { idx, onToggle } = useExpand();
-  const [targetScore, examTypeId] = useWatch({
+  const [targetScore] = useWatch({
     control: GoalConfigFormControl.control,
-    name: [`goals.${index}.targetScore`, `goals.${index}.examTypeId`],
+    name: [`goals.${index}.targetScore`],
   });
 
   return (
@@ -51,11 +51,9 @@ export function CardItemGoalView({
           name={`goals.${index}.examTypeId`}
           render={({ field: { value, onChange } }) => (
             <SelectExample
-              value={value ?? DEFAULT_GOAL_SCORE}
               onChange={onChange}
-              index={index}
-              idx={idx}
               examType={examType}
+              value={value ?? DEFAULT_GOAL_SCORE}
             />
           )}
         />
@@ -98,7 +96,7 @@ export function CardItemGoalView({
               onToggle(index + 1);
             }}
           >
-            Thêm kiểm tra {examType.get(examTypeId ?? -1)?.name.toLowerCase()}
+            Thêm mục tiêu
           </Button>
         </CardActions>
       </Collapse>
@@ -110,19 +108,14 @@ export function CardItemGoalView({
 
 const SelectExample = ({
   examType,
-  index,
-  idx,
   value,
   onChange,
 }: {
   examType: Map<number, ExamType>;
-  index: number;
-  idx: number;
   value: number;
   onChange: (value: number) => void;
 }) => (
   <Select
-    readOnly={idx === index}
     fullWidth
     value={value}
     IconComponent={null as any}
@@ -152,9 +145,7 @@ const SelectExample = ({
         </Avatar>
         <Stack alignItems="flex-start" ml={1.5}>
           <Typography fontWeight={800}>{e.name}</Typography>
-          <Label sx={{ fontSize: 12, opacity: 0.8 }}>
-            Điểm hệ số {e?.weight}
-          </Label>
+          <Label sx={{ fontSize: 12, opacity: 0.8 }}>Điểm hệ số {e?.weight}</Label>
         </Stack>
       </MenuItem>
     ))}
