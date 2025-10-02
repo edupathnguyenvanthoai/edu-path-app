@@ -36,7 +36,7 @@ export default function SubjectPage() {
         color: COLOR_LIST[Math.floor(Math.random() * COLOR_LIST.length)],
       },
       weight: 1,
-      category: '',
+      category: 'Tự chọn',
       admissionGroups: [],
     });
   }, [onOpen]);

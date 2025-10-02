@@ -29,7 +29,7 @@ function SearchSubject() {
   );
 
   return (
-    <Stack sx={{ scrollSnapAlign: 'start' }}>
+    <Stack>
       <OutlinedInput
         sx={{ borderRadius: 1.5 }}
         startAdornment={
@@ -72,13 +72,13 @@ function SearchSubject() {
           direction="row"
           flexWrap="wrap"
           sx={{
+            p: 1,
+            mt: 1,
             gap: 0.5,
-            border: 1,
+            border: 2,
             borderColor: 'divider',
             borderStyle: 'dashed',
-            p: 1,
             borderRadius: 1.5,
-            mt: 1,
           }}
         >
           {isTab && <Chip size="small" label={`Danh mục: ${tab}`} onDelete={() => setTab('')} />}

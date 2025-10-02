@@ -21,14 +21,6 @@ type ExamType = {
   };
 };
 
-// Lịch kiểm tra cho từng môn học
-type SubjectExamTypeLink = {
-  id?: number;
-  examTypeId: ExamType['id'];
-  subjectId: Subject['id'];
-  count: number; // số lần kiểm tra
-};
-
 // Mô hình dữ liệu của mục tiêu
 type Goal = {
   id?: number;

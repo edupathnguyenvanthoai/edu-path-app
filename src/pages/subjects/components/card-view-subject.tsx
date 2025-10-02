@@ -8,10 +8,10 @@ import { Iconify } from 'src/components/iconify';
 
 import { Label } from '../../../components/label';
 
-type CardViewSubjectProps = { subject: Subject; action?: ReactNode };
+type CardViewSubjectProps = { subject: Subject; action?: ReactNode;  };
 export function CardViewSubject({ subject, action }: CardViewSubjectProps) {
   return (
-    <Card sx={{ height: 1}}>
+    <Card sx={{ height: 1 }}>
       <Stack height={1} p={2} gap={1} overflow="hidden" alignItems="center" justifyContent="center">
         <Avatar
           variant="circular"

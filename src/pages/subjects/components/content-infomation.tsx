@@ -23,7 +23,8 @@ export function ContentInfomation() {
       <Controller
         control={subjectFormControl.control}
         name="name"
-        render={({ field }) => (
+        rules={{ required: 'Yêu cầu tên môn học' }}
+        render={({ field, fieldState: { error, invalid } }) => (
           <TextField
             {...field}
             slotProps={{
@@ -44,6 +45,8 @@ export function ContentInfomation() {
                 ),
               },
             }}
+            error={invalid}
+            helperText={error?.message}
             label="Tên môn học"
             required
           />

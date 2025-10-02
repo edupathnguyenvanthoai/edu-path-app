@@ -12,23 +12,22 @@ export default function SettingPage() {
   const { mode, setMode } = useColorScheme();
 
   const handleGetDefault = async () =>
-    await db.transaction('rw', db.subjects, db.examTypes, db.subjectExamTypeLinks, async () => {
+    await db.transaction('rw', db.subjects, db.examTypes, async () => {
       await db.subjects.bulkAdd(Subject);
       await db.examTypes.bulkAdd(ExamType);
       toast.success('Thêm dữ liệu thành công', { id: 'db' });
     });
 
   const handleUpdateDefault = async () =>
-    await db.transaction('rw', db.subjects, db.examTypes, db.subjectExamTypeLinks, async () => {
+    await db.transaction('rw', db.subjects, db.examTypes, async () => {
       await db.subjects.bulkPut(Subject);
       await db.examTypes.bulkPut(ExamType);
       toast.success('Cập nhật dữ liệu thành công', { id: 'db' });
     });
   const clearAll = async () =>
-    await db.transaction('rw', db.subjects, db.examTypes, db.subjectExamTypeLinks, async () => {
+    await db.transaction('rw', db.subjects, db.examTypes, async () => {
       await db.subjects.clear();
       await db.examTypes.clear();
-      await db.subjectExamTypeLinks.clear();
       toast.success('Xoá dữ liệu thành công', { id: 'db' });
     });
 

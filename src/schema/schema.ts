@@ -5,7 +5,6 @@ import Dexie from 'dexie';
 export class AppDB extends Dexie {
   subjects!: Table<Subject, number>;
   examTypes!: Table<ExamType, number>;
-  subjectExamTypeLinks!: Table<SubjectExamTypeLink, number>;
   goals!: Table<Goal, number>;
   scores!: Table<Score, number>;
   materials!: Table<Material, number>;
@@ -16,12 +15,11 @@ export class AppDB extends Dexie {
     super('EdupathApp');
 
     this.version(1).stores({
-      subjects:'++id,&name,config,weight,category,admissionGroups',
-      examTypes: '++id,&name,weight,config',
-      subjectExamTypeLinks: '++id,subjectId,examTypeId,count',
-      goals: '++id,subjectId,examTypeId,targetScore',
+      subjects:'++id,name,category',
+      examTypes: '++id,name',
+      goals: '++id,subjectId,examTypeId',
       scores: '++id,goalId,subjectId,examTypeId,score,createdAt,updatedAt',
-      materials: '++id,subjectId,name,size,url,mimeType,createdAt,updatedAt',
+      materials: '++id,subjectId,name',
       schedules: '++id,subjectId,title,type,startTime,endTime,recurring',
       notes: '++id,title,content,label,checked,createdAt,updatedAt',
     });
