@@ -67,6 +67,8 @@ export default function SettingPage() {
         Xoá tất cả
       </Button>
 
+      <Button onClick={()=>toast.success('test')}>TestToasn</Button>
+
       <Box pt={5}>
         <Infomation data={data ?? {}} />
       </Box>

@@ -23,20 +23,22 @@ export function GoalConfigView({ subjects }: GoalListViewProps) {
 
   return (
     <>
-      <Grid container spacing={2} columns={2}>
-        {subjects.map((subject) => (
-          <Grid size={1} key={subject.id}>
-            <CardViewSubject
-              subject={subject}
-              action={
-                <IconButton onClick={onSetting(subject)}>
-                  <Iconify width={24} icon="solar:settings-bold-duotone" />
-                </IconButton>
-              }
-            />
-          </Grid>
-        ))}
-      </Grid>
+      {subjects.length > 0 && (
+        <Grid container spacing={2} columns={2}>
+          {subjects.map((subject) => (
+            <Grid size={1} key={subject.id}>
+              <CardViewSubject
+                subject={subject}
+                action={
+                  <IconButton onClick={onSetting(subject)}>
+                    <Iconify width={24} icon="solar:settings-bold-duotone" />
+                  </IconButton>
+                }
+              />
+            </Grid>
+          ))}
+        </Grid>
+      )}
       <EmptyExpand in={subjects.length === 0} />
     </>
   );

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 
-import { Grid, Stack } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import { db } from '../../../schema/schema';
 import { CardViewGoal } from './card-view-goal';
@@ -29,7 +29,7 @@ export function GoalListView({ subjects, goalsMap }: GoalListViewProps) {
   );
 
   return (
-    <Stack spacing={2}>
+    <>
       {subjects.length > 0 && (
         <Grid container spacing={2} columns={2}>
           {subjects.map((subject) => (
@@ -54,6 +54,6 @@ export function GoalListView({ subjects, goalsMap }: GoalListViewProps) {
           </>
         }
       />
-    </Stack>
+    </>
   );
 }

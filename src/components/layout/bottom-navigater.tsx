@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import { memo, useMemo, useEffect } from 'react';
 
 import { Tab, Tabs, Container } from '@mui/material';
@@ -18,6 +19,7 @@ function BottomNavigater({ bottom }: { bottom: number }) {
 
   useEffect(() => {
     localStorage.setItem('pathname', pathname);
+    toast.dismiss();
   }, [pathname]);
 
   return (

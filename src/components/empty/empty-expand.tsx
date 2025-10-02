@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import { Card, Fade, Stack, Typography } from '@mui/material';
+import { Card, Stack, Collapse, Typography } from '@mui/material';
 
 import { Iconify } from '../iconify';
 
@@ -12,7 +12,7 @@ type EmptyProps = {
 
 export function EmptyExpand({ title, icon, in: open = true }: EmptyProps) {
   return (
-    <Fade in={open} unmountOnExit mountOnEnter>
+    <Collapse in={open} unmountOnExit mountOnEnter>
       <Stack
         spacing={1}
         component={Card}
@@ -33,6 +33,6 @@ export function EmptyExpand({ title, icon, in: open = true }: EmptyProps) {
           {title ?? 'Không có dữ liệu nào'}
         </Typography>
       </Stack>
-    </Fade>
+    </Collapse>
   );
 }

@@ -3,10 +3,12 @@ import { Toaster as ToasterSonner } from 'sonner';
 import { useTheme } from '@mui/material';
 
 import { Iconify } from '../iconify';
-import { bgImage } from '../../theme';
+import { usePadding } from '../../config-capacitor';
 
 export default function Toaster() {
   const theme = useTheme();
+  const { top } = usePadding();
+
   return (
     <ToasterSonner
       position="top-center"
@@ -29,6 +31,9 @@ export default function Toaster() {
         ),
       }}
       gap={Number(theme.shape.borderRadius) * 0.5}
+      style={{
+        marginTop: theme.spacing(top - 2),
+      }}
       toastOptions={{
         style: {
           width: 'fix-content',
@@ -37,7 +42,6 @@ export default function Toaster() {
           background: theme.vars.palette.background.default,
           color: theme.vars.palette.text.primary,
           borderColor: theme.vars.palette.divider,
-          ...bgImage(theme),
         },
       }}
     />

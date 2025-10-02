@@ -56,21 +56,23 @@ export default function SubjectPage() {
         }
       />
       <SearchSubjects />
-      <Grid container spacing={2} columns={2}>
-        {subjects.map((subject) => (
-          <Grid key={subject.id} size={1}>
-            <CardViewSubject
-              key={subject.id}
-              subject={subject}
-              action={
-                <IconButton onClick={handleEdit(subject)}>
-                  <Iconify icon="solar:pen-bold" />
-                </IconButton>
-              }
-            />
-          </Grid>
-        ))}
-      </Grid>
+      {subjects.length > 0 && (
+        <Grid container spacing={2} columns={2}>
+          {subjects.map((subject) => (
+            <Grid key={subject.id} size={1}>
+              <CardViewSubject
+                key={subject.id}
+                subject={subject}
+                action={
+                  <IconButton onClick={handleEdit(subject)}>
+                    <Iconify icon="solar:pen-bold" />
+                  </IconButton>
+                }
+              />
+            </Grid>
+          ))}
+        </Grid>
+      )}
       <EmptyExpand in={!subjects.length} />
       <DialogActionSubject />
     </Stack>
