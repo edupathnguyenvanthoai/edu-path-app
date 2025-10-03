@@ -1,0 +1,1 @@
+https://dbdiagram.io/d/Edupath-68d840cad2b621e422340ed3

@@ -26,7 +26,6 @@ export default function App({ children }: PropsWithChildren) {
           overflowY: 'auto',
           minHeight: '100vh',
           position: 'relative',
-          scrollSnapType: 'y mandatory',
         }}
       >
         {children}

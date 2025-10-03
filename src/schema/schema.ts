@@ -20,7 +20,7 @@ export class AppDB extends Dexie {
       goals: '++id,subjectId,examTypeId',
       scores: '++id,goalId,subjectId,examTypeId,score,createdAt,updatedAt',
       materials: '++id,subjectId,name',
-      schedules: '++id,subjectId,title,type,startTime,endTime,recurring',
+      schedules: '++id,title,description',
       notes: '++id,title,content,label,checked,createdAt,updatedAt',
     });
   }

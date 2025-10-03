@@ -53,11 +53,19 @@ type Material = {
 type Schedule = {
   id?: number;
   title: string;
-  subjectId: Subject['id'];
-  type: string; //'Chính khoá', 'Học Thêm', 'Khác';
-  startTime: Dayjs;
-  endTime: Dayjs;
-  recurring?: string; // Lập lại mỗi tuần hay mỗi tháng hay mỗi ngày
+  description?: string;
+  content: {
+    subjectId: Subject['id'];
+    day: number;
+    index: number
+  }[];
+  timeMap: {
+    startTime: string;
+    duration: number
+  }[];
+  scheduleId: Schedule['id']
+  author?: string;
+  version?: string;
 };
 
 type Note = {

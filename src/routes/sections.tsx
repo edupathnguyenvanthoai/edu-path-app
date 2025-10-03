@@ -33,6 +33,7 @@ export const renderFallback = () => (
 const SubjectsPage = lazy(() => import('src/pages/subjects/page'));
 const GoalsPage = lazy(() => import('src/pages/goals/page'));
 const SettingsPage = lazy(() => import('src/pages/settings/page'));
+const SchedulePage = lazy(() => import('src/pages/schedule/page'));
 const IconsPage = lazy(() => import('./icons'));
 
 export const routesSection: RouteObject[] = [
@@ -54,6 +55,10 @@ export const routesSection: RouteObject[] = [
       {
         path: 'goals',
         Component: GoalsPage,
+      },
+      {
+        path: 'schedule',
+        Component: SchedulePage,
       },
       {
         path: 'settings',

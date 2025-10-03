@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useDeferredValue } from 'react';
 
-import { Card, Stack, Collapse, Typography } from '@mui/material';
+import { Card, Stack, Typography } from '@mui/material';
 
 import { Iconify } from '../iconify';
 
@@ -10,9 +10,11 @@ type EmptyProps = {
   title?: string | ReactNode;
 };
 
-export function EmptyExpand({ title, icon, in: open = true }: EmptyProps) {
+export function EmptyExpand({ title, icon, in: open = false }: EmptyProps) {
+  const _open = useDeferredValue(open);
+
   return (
-    <Collapse in={open} unmountOnExit mountOnEnter>
+    _open && (
       <Stack
         spacing={1}
         component={Card}
@@ -33,6 +35,6 @@ export function EmptyExpand({ title, icon, in: open = true }: EmptyProps) {
           {title ?? 'Không có dữ liệu nào'}
         </Typography>
       </Stack>
-    </Collapse>
+    )
   );
 }
