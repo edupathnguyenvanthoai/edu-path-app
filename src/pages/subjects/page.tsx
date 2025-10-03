@@ -6,18 +6,22 @@ import { solarIconsName } from 'src/components/iconify/icon-solar';
 
 import { useSubject } from './hooks/use-subject';
 import { Iconify } from '../../components/iconify';
+import { useParams } from '../../utils/use-params';
 import Header from '../../components/layout/header';
 import SearchSubjects from './components/search-subjects';
 import subjectFormControl from './context/subject-form-control';
 import { CardViewSubject } from './components/card-view-subject';
 import { EmptyExpand } from '../../components/empty/empty-expand';
+import { DialogInputScore } from './components/dialog-input-score';
 import { COLOR_LIST } from '../../components/color-utils/color-set';
 import DialogActionSubject from './components/dialog-action-subject';
 import { useDialogActionSubject } from './hooks/use-dialog-action-subject';
 
 export default function SubjectPage() {
-  const subjects = useDeferredValue(useSubject(), []);
+  const { subjects: lst, scoreMap } = useSubject();
+  const subjects = useDeferredValue(lst);
   const { onOpen } = useDialogActionSubject();
+  const [, setParams] = useParams({ subjectId: -1 });
 
   const handleEdit = useCallback(
     (s: Subject) => () => {
@@ -41,6 +45,13 @@ export default function SubjectPage() {
     });
   }, [onOpen]);
 
+  const handleAddScore = useCallback(
+    (id: number) => () => {
+      setParams({ subjectId: id });
+    },
+    [setParams]
+  );
+
   return (
     <Stack spacing={2}>
       <Header
@@ -63,9 +74,11 @@ export default function SubjectPage() {
               <CardViewSubject
                 key={subject.id}
                 subject={subject}
+                onClick={handleAddScore(subject.id!)}
+                score={scoreMap.get(subject.id!)}
                 action={
                   <IconButton onClick={handleEdit(subject)}>
-                    <Iconify icon="solar:pen-bold" />
+                    <Iconify icon="eva:more-vertical-fill" />
                   </IconButton>
                 }
               />
@@ -75,6 +88,7 @@ export default function SubjectPage() {
       )}
       <EmptyExpand in={!subjects.length} />
       <DialogActionSubject />
+      <DialogInputScore />
     </Stack>
   );
 }

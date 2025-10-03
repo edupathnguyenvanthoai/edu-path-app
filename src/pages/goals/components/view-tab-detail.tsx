@@ -34,16 +34,17 @@ export function ViewTabDetail({ examTypeMap }: ViewTabDetailProps) {
   );
   return (
     <Stack spacing={1}>
-      {fields.map((goal, index) => (
-        <CardItemGoalView
-          key={goal.id}
-          examType={examTypeMap}
-          index={index}
-          onCopy={onCopy(index)}
-          onDelete={onDelete(index)}
-          isDel={fields.length > 1}
-        />
-      ))}
+      {examTypeMap &&
+        fields.map((goal, index) => (
+          <CardItemGoalView
+            key={goal.id}
+            examType={examTypeMap}
+            index={index}
+            onCopy={onCopy(index)}
+            onDelete={onDelete(index)}
+            isDel={fields.length > 1}
+          />
+        ))}
     </Stack>
   );
 }

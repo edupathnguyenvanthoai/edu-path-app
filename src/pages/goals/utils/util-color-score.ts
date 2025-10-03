@@ -1,3 +1,5 @@
+import { yellow } from '@mui/material/colors';
+
 const COLORLIST = [
   '#000000',
   '#810707',
@@ -6,7 +8,7 @@ const COLORLIST = [
   '#ef6c00',
   '#0097a7',
   '#43a047',
-  '#43a047'
+  '#23b02a',
 ];
 export const rangScoreColor = [0, 1, 2, 3.5, 5, 6.5, 8, 9.5, 10];
 export const rangScore = [0, 2, 3.5, 5, 6.5, 8, 10];
@@ -17,5 +19,5 @@ export const getColorScore = (score: number) => {
       return COLORLIST[i - 1];
     }
   }
-  return '#43a047';
+  return yellow[600];
 };

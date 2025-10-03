@@ -1,4 +1,4 @@
-import { Avatar, ButtonBase, Typography } from '@mui/material';
+import { Stack, Avatar, Typography, ButtonBase } from '@mui/material';
 
 import { abbreviate } from '../util/view-list';
 import { Iconify } from '../../../components/iconify';
@@ -11,50 +11,53 @@ DAY[6] = 0;
 type CardCellScheduleProps = {
   subject: Subject;
   onAction?: () => void;
+  active?: boolean;
 };
 
-export function CardCellSchedule({ subject, onAction }: CardCellScheduleProps) {
+export function CardCellSchedule({ subject, onAction, active }: CardCellScheduleProps) {
   const { subjectMap } = useSubjectDataView();
   const exams = subjectMap.get(Math.floor(Math.random() * 15) + 1)!;
-  // console.log(exams);
-  
+
   return (
-    <ButtonBase
-      sx={{
-        flex: 1,
-        px: 0.5,
-        py: 1,
-        flexDirection: 'column',
-        justifyContent: 'start',
-        overflow: 'hidden',
-        alignItems: 'center',
-        border: 0.5,
-        borderColor: 'divider',
-      }}
-      onClick={onAction}
-    >
-      <Avatar
+    <ButtonBase sx={{ flex: 1, display: 'flex' }}>
+      <Stack
+        direction="row"
         sx={{
-          width: 28,
-          height: 28,
-          my: 1,
-          bgcolor: exams.config.color,
-          color: getTextColor(exams.config.color),
+          p: 1,
+          gap: 0.5,
+          border: 0.5,
+          flex: 1,
+          overflow: 'hidden',
+          alignItems: 'start',
+          borderColor: 'divider',
+          justifyContent: 'start',
         }}
+        onClick={onAction}
       >
-        <Iconify width={0.6} icon={exams?.config?.icon as any} />
-      </Avatar>
-      <Typography
-        textAlign="center"
-        variant="body2"
-        maxWidth={1}
-        sx={{
-          whiteSpace: 'normal',
-          wordBreak: 'break-word',
-        }}
-      >
-        {abbreviate(exams.name, 12)}
-      </Typography>
+        <Avatar
+          sx={{
+            width: 24,
+            height: 24,
+            bgcolor: exams.config.color,
+            color: getTextColor(exams.config.color),
+          }}
+        >
+          <Iconify width={0.6} icon={exams.config.icon as any} />
+        </Avatar>
+        <Typography
+          variant="body2"
+          maxWidth={1}
+          sx={{
+            textAlign: 'left',
+            flex: 1,
+            whiteSpace: 'normal',
+            wordBreak: 'break-word',
+            fontWeight: active ? 'bold' : 'normal',
+          }}
+        >
+          {abbreviate(exams.name, 12)}
+        </Typography>
+      </Stack>
     </ButtonBase>
   );
 }

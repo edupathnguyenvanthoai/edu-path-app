@@ -60,6 +60,7 @@ export function ContentScheduleList() {
               <Iconify icon={editMode ? 'mingcute:close-line' : 'solar:pen-bold'} />
             </IconButton>
           }
+          sx={{ color: 'primary.main' }}
         />
         <Box sx={{ overflow: 'auto', scrollSnapType: 'x mandatory', my: 2 }}>
           {subjectMap.size === 0 ? (
@@ -68,7 +69,7 @@ export function ContentScheduleList() {
               <Typography variant="body1">Đang tải lịch học</Typography>
             </Stack>
           ) : (
-            <Stack width="calc(200% - 6rem)">
+            <Stack width={`calc(${(100 / 3) * 7}%)`}>
               <Stack direction="row">
                 {DAY.map((e) => (
                   <Box
@@ -97,7 +98,14 @@ export function ContentScheduleList() {
                 ))}
               </Stack>
               {TIMELIST.map((time, i) => (
-                <CardScheduleRow key={time[0]} times={time} index={i} onAction={onAction} />
+                <CardScheduleRow
+                  key={time[0]}
+                  times={time}
+                  index={i}
+                  onAction={onAction}
+                  mode={timeInDay}
+                  day={day}
+                />
               ))}
             </Stack>
           )}

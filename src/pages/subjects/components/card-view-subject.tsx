@@ -1,15 +1,23 @@
 import type { ReactNode } from 'react';
 
-import { Box, Card, Stack, Avatar, Typography, CardActionArea } from '@mui/material';
+import { Box, Card, Stack, Avatar, Typography, AvatarGroup, CardActionArea } from '@mui/material';
 
 import { getTextColor } from 'src/utils/action-theme';
 
 import { Iconify } from 'src/components/iconify';
 
 import { Label } from '../../../components/label';
+import { getColorScore } from '../../goals/utils/util-color-score';
 
-type CardViewSubjectProps = { subject: Subject; action?: ReactNode; onClick?: () => void };
-export function CardViewSubject({ subject, action, onClick }: CardViewSubjectProps) {
+type CardViewSubjectProps = {
+  subject: Subject;
+  action?: ReactNode;
+  onClick?: () => void;
+  score?: Score[];
+};
+export function CardViewSubject({ subject, action, onClick, score }: CardViewSubjectProps) {
+  console.log(score);
+  
   return (
     <Card sx={{ height: 1 }}>
       <CardActionArea disabled={!onClick} onClick={onClick}>
@@ -49,8 +57,20 @@ export function CardViewSubject({ subject, action, onClick }: CardViewSubjectPro
               {subject.name}
             </Typography>
           </Box>
-          <Label>{subject.category}</Label>
+          <Stack direction="row" spacing={0.5}>
+            <Label>{subject.category}</Label>
+            <Label>x{subject.weight}</Label>
+          </Stack>
           <Typography variant="caption">{subject.admissionGroups.join(', ')}</Typography>
+          {score && score.length > 0 && (
+            <AvatarGroup>
+              {score.map((i) => (
+                <Avatar sx={{ bgcolor: getColorScore(i.score), width: 24, height: 24 }} key={i.id}>
+                  {i.score.toFixed(1)}
+                </Avatar>
+              ))}
+            </AvatarGroup>
+          )}
         </Stack>
       </CardActionArea>
       {action && (

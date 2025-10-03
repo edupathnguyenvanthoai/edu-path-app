@@ -1,6 +1,6 @@
 import type { BoxProps } from '@mui/material';
 
-import { memo, forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 import { yellow } from '@mui/material/colors';
 import { Box, Zoom, Stack, Avatar, CircularProgress } from '@mui/material';
@@ -20,7 +20,7 @@ const ViewCircularScore = forwardRef<HTMLDivElement, ViewScoreCicleProps>(
     const bgcolor = getColorScore(score);
 
     return (
-      <Stack ref={ref} alignItems="center" {...props}>
+      <Stack ref={ref} alignItems="center" justifyContent="center" {...props}>
         <Box position="relative" p={`${space}px`}>
           <Avatar
             variant="circular"
@@ -68,4 +68,4 @@ const ViewCircularScore = forwardRef<HTMLDivElement, ViewScoreCicleProps>(
   }
 );
 
-export default memo(ViewCircularScore);
+export default ViewCircularScore;
